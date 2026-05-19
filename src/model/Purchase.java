@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Purchase {
     private Map<String, Integer> quantityOfProductsPurchased = new HashMap<>();
+    //The above is a map for Product id -> Quantity bought.
     private final double totalAmount;
     private final double moneyPayedByCustomer;
     private final double moneyToBeReturnedByVendingMachine;
