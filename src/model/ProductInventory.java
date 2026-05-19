@@ -1,20 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductInventory {
     private static final List<Product> productStorage = new ArrayList<>();
     private static final Map<String, Integer> productStockCount = new HashMap<>();
 
     public static List<Product> getProductStorage() {
-        return productStorage;
+        return Collections.unmodifiableList(productStorage);
     }
 
     public static Map<String, Integer> getProductStockCount() {
-        return productStockCount;
+        return Collections.unmodifiableMap(productStockCount);
     }
 
     public void addNewProduct(Product newProduct, Integer stockCount){
