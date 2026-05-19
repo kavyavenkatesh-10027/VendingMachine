@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CashInventory{
     private static final List<Cash> cashDenomination = new ArrayList<>();
@@ -12,11 +9,11 @@ public class CashInventory{
 
 
     public static List<Cash> getCashDenomination() {
-        return cashDenomination;
+        return Collections.unmodifiableList(cashDenomination);
     }
 
     public static Map<String, Integer> getCashCount() {
-        return cashCount;
+        return Collections.unmodifiableMap(cashCount);
     }
 
     public Cash findCashCurrency(String cashId){
