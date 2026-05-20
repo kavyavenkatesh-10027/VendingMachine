@@ -40,7 +40,7 @@ public class CashInventory{
 
     public boolean debitFromDenomination(String cashId, Integer numberOfDenomination){
         if(cashCount.containsKey(cashId)) {
-            cashCount.put(cashId, cashCount.get(cashId) + numberOfDenomination);
+            cashCount.put(cashId, cashCount.get(cashId) - numberOfDenomination);
             return true;
         }
         return false;
