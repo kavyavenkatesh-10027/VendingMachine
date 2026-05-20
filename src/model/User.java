@@ -16,7 +16,7 @@ public abstract class User {
     }
 
     public String getName() {
-        return gender;
+        return name;
     }
 
     public LocalDate getDob() {
