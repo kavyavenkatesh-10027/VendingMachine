@@ -7,8 +7,7 @@ import java.util.Map;
 
 public class CashStorageInventory {
 
-    private static final CashStorageInventory INSTANCE =
-            new CashStorageInventory();
+    private static final CashStorageInventory INSTANCE = new CashStorageInventory();
 
     private final Map<IndianCurrency, Integer> inventory;
 
@@ -25,12 +24,10 @@ public class CashStorageInventory {
     }
 
     public void addCash(IndianCurrency currency, int count) {
-        inventory.put(currency,
-                inventory.get(currency) + count);
+        inventory.put(currency, inventory.get(currency) + count);
     }
 
     public boolean removeCash(IndianCurrency currency, int count) {
-
         int available = inventory.get(currency);
 
         if (available < count) {
@@ -46,14 +43,10 @@ public class CashStorageInventory {
     }
 
     public int getTotalAmount() {
-
         int total = 0;
 
-        for (Map.Entry<IndianCurrency, Integer> entry
-                : inventory.entrySet()) {
-
-            total += entry.getKey().getValue()
-                    * entry.getValue();
+        for (Map.Entry<IndianCurrency, Integer> entry : inventory.entrySet()) {
+            total += entry.getKey().getValue() * entry.getValue();
         }
 
         return total;
