@@ -31,7 +31,7 @@ public class CashInventory{
     }
 
     public boolean creditToDenomination(String cashId, Integer numberOfDenominationToAdd){
-        if(cashId.contains(cashId)) {
+        if(cashCount.containsKey(cashId)) {
             cashCount.put(cashId, cashCount.get(cashId) + numberOfDenominationToAdd);
             return true;
         }
