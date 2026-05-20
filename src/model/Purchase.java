@@ -10,11 +10,11 @@ public class Purchase {
     private final double moneyPayedByCustomer;
     private final double moneyToBeReturnedByVendingMachine;
 
-    public Purchase(Map<String, Integer> quantityOfProductsPurchased, double totalAmount, double moneyPayedByCustomer, double moneyToBeReturnedByVendingMachine, double moneyToBeReturnedByVendingMachine1){
+    public Purchase(Map<String, Integer> quantityOfProductsPurchased, double totalAmount, double moneyPayedByCustomer, double moneyToBeReturnedByVendingMachine){
         this.quantityOfProductsPurchased = quantityOfProductsPurchased;
         this.totalAmount = totalAmount;
         this.moneyPayedByCustomer =moneyPayedByCustomer;
-        this.moneyToBeReturnedByVendingMachine = totalAmount - moneyPayedByCustomer;
+        this.moneyToBeReturnedByVendingMachine = moneyToBeReturnedByVendingMachine;
     }
 
     public Map<String, Integer> getQuantityOfProductsPurchased() {

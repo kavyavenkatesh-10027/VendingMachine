@@ -21,7 +21,7 @@ public class ProductInventory {
 
     public boolean addStockToPreExistingProduct(String productId, Integer stocksToAdd){
         if(productStockCount.containsKey(productId)){
-            productStockCount.remove(productId);
+            productStockCount.put(productId, productStockCount.get(productId) + stocksToAdd);
             return true;
         }
         return false;
