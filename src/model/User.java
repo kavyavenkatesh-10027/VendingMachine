@@ -1,18 +1,18 @@
 package model;
 
+import util.Gender;
+
 import java.time.LocalDate;
 
 public abstract class User {
     private final String name;
     private final LocalDate dob;
-    private final String gender;
-    private final String password;
+    private final Gender gender;
 
-    public User(String name, LocalDate dob, String gender, String password){
+    public User(String name, LocalDate dob, Gender gender){
         this.name = name;
         this.dob = dob;
         this.gender = gender;
-        this.password = password;
     }
 
     public String getName() {
@@ -23,16 +23,12 @@ public abstract class User {
         return dob;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     @Override
     public String toString() {
-        return "Name : " + name + '\n' + "Date of Birth : " + dob  + " Gender : " + gender;
+        return "Name : " + name + '\n' + "Date of Birth : " + dob  + "\n" + " Gender : " + gender;
     }
 }
