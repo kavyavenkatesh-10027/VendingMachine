@@ -3,6 +3,7 @@ package model;
 import util.Generator;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Map;
 
 public class Purchase {
@@ -32,7 +33,7 @@ public class Purchase {
     }
 
     public Map<String, Integer> getQuantityOfProductsPurchased() {
-        return quantityOfProductsPurchased;
+        return Collections.unmodifiableMap(quantityOfProductsPurchased);
     }
 
     public double getTotalAmount() {

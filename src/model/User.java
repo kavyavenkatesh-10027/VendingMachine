@@ -29,6 +29,8 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "Name : " + name + '\n' + "Date of Birth : " + dob  + "\n" + " Gender : " + gender;
+        return "Name : " + name + '\n' +
+                "Date of Birth : " + dob  + "\n" +
+                " Gender : " + gender;
     }
 }
