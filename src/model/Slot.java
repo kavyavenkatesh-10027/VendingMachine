@@ -29,4 +29,22 @@ public class Slot {
         return Collections.unmodifiableMap(foodItemsInSlot);
     }
 
+    public void addNewFoodTypeToSlot(String theIdOfNewFoodToAdd, Integer quantity){
+        foodItemsInSlot.put(theIdOfNewFoodToAdd, quantity);
+    }
+
+    public void addMoreOfFoodItemToSlot(String theIdOfFoodItemToRefill, Integer quantity){
+        if(foodItemsInSlot.containsKey(theIdOfFoodItemToRefill)) {
+            foodItemsInSlot.put(theIdOfFoodItemToRefill, foodItemsInSlot.get(theIdOfFoodItemToRefill) + quantity);
+        }
+    }
+
+    public void removeFoodItemFromSlot(String theIdOfFoodItemToRemove, Integer quantity){
+        foodItemsInSlot.put(theIdOfFoodItemToRemove, foodItemsInSlot.get(theIdOfFoodItemToRemove) - quantity);
+    }
+
+    public void removeFoodTypeFromSlot(String theIdOfFoodToRemove){
+        foodItemsInSlot.remove(theIdOfFoodToRemove);
+    }
+
 }
