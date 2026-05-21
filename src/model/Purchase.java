@@ -2,6 +2,7 @@ package model;
 
 import util.Generator;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
@@ -18,6 +19,23 @@ public class Purchase {
     public Purchase(Map<String, Integer> quantityOfProductsPurchased, double totalAmount, double moneyPaidByCustomer, double moneyToBeReturnedByVendingMachine){
         this.purchaseId = Generator.generatePurchaseId();
         this.purchaseTime = LocalDateTime.now();
+
+        if(quantityOfProductsPurchased == null || quantityOfProductsPurchased.isEmpty()){
+            throw new IllegalArgumentException("Purchase isn't logical with no product");
+        }
+
+        if (totalAmount<0){
+            throw new IllegalArgumentException("Total amount cannot be negative");
+        }
+
+        if (moneyPaidByCustomer<0){
+            throw new IllegalArgumentException("Money paid by customer cannot be negative");
+        }
+
+        if (moneyToBeReturnedByVendingMachine<0){
+            throw new IllegalArgumentException("Balance cannot be negative");
+        }
+
         this.quantityOfProductsPurchased = quantityOfProductsPurchased;
         this.totalAmount = totalAmount;
         this.moneyPaidByCustomer = moneyPaidByCustomer;

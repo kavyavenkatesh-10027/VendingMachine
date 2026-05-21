@@ -15,6 +15,19 @@ public class VendingMachine {
 
     public VendingMachine(Location vendingMachineLocation, LocalDate establishedOn, List<Slot> slotsInVendingMachine) {
         this.vendingMachineId = Generator.generateVendingMachineId();
+
+        if (vendingMachineLocation == null){
+            throw new IllegalArgumentException("Vending machine must have a location");
+        }
+
+        if (establishedOn == null || establishedOn.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Established date must be on or before the current date");
+        }
+
+        if (slotsInVendingMachine == null || slotsInVendingMachine.isEmpty()){
+            throw new IllegalArgumentException("Vending machine cannot have zero slots");
+        }
+
         this.vendingMachineLocation = vendingMachineLocation;
         this.establishedOn = establishedOn;
         this.slotsInVendingMachine = slotsInVendingMachine;

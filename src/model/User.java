@@ -3,6 +3,7 @@ package model;
 import util.Gender;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public abstract class User {
     private final String name;
@@ -10,6 +11,18 @@ public abstract class User {
     private final Gender gender;
 
     public User(String name, LocalDate dob, Gender gender){
+        if (name==null || name.trim().isEmpty()){
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+
+        if (dob == null || dob.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Date of Birth must be on or before the current date");
+        }
+
+        if (gender == null){
+            throw new IllegalArgumentException("Gender field mustn't be left empty");
+        }
+
         this.name = name;
         this.dob = dob;
         this.gender = gender;

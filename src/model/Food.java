@@ -15,6 +15,23 @@ public class Food extends Product{
 
     public Food(String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate, VegNonVeg vegOrNonVeg, List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
         super(productName, brand, description, warning, price, manufacturingLocation, manufacturingDate);
+
+        if (vegOrNonVeg == null){
+            throw new IllegalArgumentException("Must have veg/non-veg mark");
+        }
+
+        if (ingredients == null || ingredients.isEmpty()){
+            throw new IllegalArgumentException("Ingredients must be mentioned");
+        }
+
+        if (expiryDate == null|| expiryDate.isBefore(LocalDate.now())){
+            throw new IllegalArgumentException("Product has already expired");
+        }
+
+        if (foodType == null){
+            throw new IllegalArgumentException("Food variety must always be mentioned");
+        }
+
         this.vegOrNonVeg = vegOrNonVeg;
         this.ingredients = ingredients;
         this.expiryDate = expiryDate;

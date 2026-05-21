@@ -16,6 +16,31 @@ public class Product {
 
     public Product(String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate){
         this.productId = Generator.generateProductId();
+
+        if (productName == null || productName.trim().isEmpty()){
+            throw new IllegalArgumentException("Product must have a name");
+        }
+
+        if (brand == null || brand.trim().isEmpty()){
+            throw new IllegalArgumentException("Product must have a brand");
+        }
+
+        if (description == null || description.trim().isEmpty()){
+            throw new IllegalArgumentException("Product must have a description");
+        }
+
+        if (price<0){
+            throw new IllegalArgumentException("Price of product cannot be negative");
+        }
+
+        if (manufacturingLocation == null){
+            throw new IllegalArgumentException("Product must have a name");
+        }
+
+        if (manufacturingDate == null || manufacturingDate.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Manufacturing date must always be before the current date");
+        }
+
         this.productName = productName;
         this.brand = brand;
         this.description = description;
@@ -34,6 +59,10 @@ public class Product {
     }
 
     public void setProductName(String productName) {
+        if (productName == null || productName.trim().isEmpty()){
+            throw new IllegalArgumentException("Product must have a name");
+        }
+
         this.productName = productName;
     }
 
@@ -42,6 +71,10 @@ public class Product {
     }
 
     public void setBrand(String brand) {
+        if (brand == null || brand.trim().isEmpty()){
+            throw new IllegalArgumentException("Product must have a brand");
+        }
+
         this.brand = brand;
     }
 
@@ -50,6 +83,10 @@ public class Product {
     }
 
     public void setDescription(String description) {
+        if (description == null || description.trim().isEmpty()){
+            throw new IllegalArgumentException("Product must have a description");
+        }
+
         this.description = description;
     }
 
@@ -66,6 +103,10 @@ public class Product {
     }
 
     public void setPrice(double price) {
+        if (price<0){
+            throw new IllegalArgumentException("Price of product cannot be negative");
+        }
+
         this.price = price;
     }
 

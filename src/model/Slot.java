@@ -7,13 +7,17 @@ import java.util.Map;
 public class Slot {
     private final String slotId;
     private final String vendingMachineId;
-    //has-a relationship(Slot has food items)
-    private final Map<String, Integer> foodItemsInSlot;
+    private final Map<String, Integer> foodItemsInSlot; //has-a relationship(Slot has food items)
     //This is a map for foodId and quantity that are present in that particular slot
 
     public Slot(String vendingMachineId, Map<String, Integer> foodItemsInSlot){
         this.slotId = Generator.generateSlotId();
-        this.vendingMachineId = vendingMachineId;
+        this.vendingMachineId = vendingMachineId; //here will have to check if it exists, would need repository to be done later
+
+        if (foodItemsInSlot == null || foodItemsInSlot.isEmpty()){
+            throw new IllegalArgumentException("Slot shouldn't be added without adding items");
+        }
+
         this.foodItemsInSlot = foodItemsInSlot;
     }
 
