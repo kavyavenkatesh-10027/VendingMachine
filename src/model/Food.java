@@ -29,6 +29,10 @@ public class Food extends Product{
         return Collections.unmodifiableList(ingredients);
     }
 
+    public FoodType getFoodType() {
+        return foodType;
+    }
+
     public void addIngredient(String newIngredient){
         ingredients.add(newIngredient);
     }
