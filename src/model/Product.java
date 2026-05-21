@@ -1,5 +1,7 @@
 package model;
 
+import util.Generator;
+
 import java.time.LocalDate;
 
 public class Product {
@@ -12,8 +14,8 @@ public class Product {
     private final String manufacturingLocation;
     private final LocalDate manufacturingDate;
 
-    public Product(String productId, String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate){
-        this.productId = productId;
+    public Product(String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate){
+        this.productId = Generator.generateProductId();
         this.productName = productName;
         this.brand = brand;
         this.description = description;
