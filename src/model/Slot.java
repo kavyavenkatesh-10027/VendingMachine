@@ -29,12 +29,4 @@ public class Slot {
         return Collections.unmodifiableMap(foodItemsInSlot);
     }
 
-    public void addFoodItemToSlot(String theIdOfFoodToAdd, Integer quantity){
-        foodItemsInSlot.put(theIdOfFoodToAdd, foodItemsInSlot.get(theIdOfFoodToAdd)+quantity);
-    }
-
-    public void removeFoodItemFromSlot(String theIdOfFoodToRemove, Integer quantity){
-        foodItemsInSlot.remove(theIdOfFoodToRemove, foodItemsInSlot.get(theIdOfFoodToRemove) - quantity);
-    }
-
 }
