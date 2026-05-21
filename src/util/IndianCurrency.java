@@ -1,4 +1,4 @@
-package model;
+package util;
 
 public enum IndianCurrency {
     ONE(1),
