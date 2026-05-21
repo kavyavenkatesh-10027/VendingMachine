@@ -1,30 +1,32 @@
 package model;
 
+import util.FoodType;
 import util.VegNonVeg;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 public class Food extends Product{
     private final VegNonVeg vegOrNonVeg;
-    private List<String> ingredients;
+    private final List<String> ingredients;
     private final LocalDate expiryDate;
+    private final FoodType foodType;
 
-
-    public Food(String productId, String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate, VegNonVeg vegOrNonVeg, List<String> ingredients, LocalDate expiryDate) {
-        super(productId, productName, brand, description, warning, price, manufacturingLocation, manufacturingDate);
+    public Food(String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate, VegNonVeg vegOrNonVeg, List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
+        super(productName, brand, description, warning, price, manufacturingLocation, manufacturingDate);
         this.vegOrNonVeg = vegOrNonVeg;
         this.ingredients = ingredients;
-        this.expiryDate=expiryDate;
+        this.expiryDate = expiryDate;
+        this.foodType = foodType;
     }
 
-    @Override
-    public double getPrice() {
-        return super.getPrice();
+    public VegNonVeg getVegOrNonVeg() {
+        return vegOrNonVeg;
     }
 
     public List<String> getIngredients() {
-        return ingredients;
+        return Collections.unmodifiableList(ingredients);
     }
 
     public void addIngredient(String newIngredient){
