@@ -1,5 +1,6 @@
 package model;
 
+import util.Gender;
 import util.Generator;
 
 import java.time.LocalDate;
@@ -7,8 +8,8 @@ import java.time.LocalDate;
 public class Admin extends User{
     private final String adminId;
 
-    public Admin(String name, LocalDate dob, String gender, String password) {
-        super(name, dob, gender, password);
+    public Admin(String name, LocalDate dob, Gender gender) {
+        super(name, dob, gender);
         adminId = Generator.generateAdminId();
     }
 
