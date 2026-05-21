@@ -43,4 +43,12 @@ public class VendingMachine {
     public void removeSlotFromVendingMachine(Slot slotToRemove){
         slotsInVendingMachine.remove(slotToRemove);
     }
+
+    @Override
+    public String toString() {
+        return "Vending Machine ID : " + vendingMachineId + "\n" +
+                "Location : " + vendingMachineLocation + "\n" +
+                "Established On : " + establishedOn + "\n" +
+                "Slots : " + slotsInVendingMachine;
+    }
 }

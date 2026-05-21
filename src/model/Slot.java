@@ -47,4 +47,10 @@ public class Slot {
         foodItemsInSlot.remove(theIdOfFoodToRemove);
     }
 
+    @Override
+    public String toString() {
+        return "Slot ID : " + slotId + "\n" +
+                "Vending Machine ID : " + vendingMachineId + "\n" +
+                "Food Items In Slot : " + foodItemsInSlot;
+    }
 }

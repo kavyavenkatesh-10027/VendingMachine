@@ -76,4 +76,16 @@ public class Product {
     public LocalDate getManufacturingDate() {
         return manufacturingDate;
     }
+
+    @Override
+    public String toString() {
+        return "Product ID : " + productId + "\n" +
+                "Product Name : " + productName + "\n" +
+                "Brand : " + brand + "\n" +
+                "Description : " + description + "\n" +
+                "Warning : " + warning + "\n" +
+                "Price : " + price + "\n" +
+                "Manufacturing Location : " + manufacturingLocation + "\n" +
+                "Manufacturing Date : " + manufacturingDate;
+    }
 }

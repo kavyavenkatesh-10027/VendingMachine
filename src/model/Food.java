@@ -44,4 +44,13 @@ public class Food extends Product{
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" +
+                "Veg/Non-Veg : " + vegOrNonVeg + "\n" +
+                "Ingredients : " + ingredients + "\n" +
+                "Expiry Date : " + expiryDate + "\n" +
+                "Food Type : " + foodType;
+    }
 }

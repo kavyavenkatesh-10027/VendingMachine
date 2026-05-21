@@ -16,4 +16,9 @@ public class Admin extends User{
     public String getAdminId() {
         return adminId;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" + "Admin ID : " + adminId;
+    }
 }

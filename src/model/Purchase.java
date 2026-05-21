@@ -47,6 +47,16 @@ public class Purchase {
         return moneyToBeReturnedByVendingMachine;
     }
 
+    @Override
+    public String toString() {
+        return "Purchase ID : " + purchaseId + "\n" +
+                "Purchase Time : " + purchaseTime + "\n" +
+                "Products Purchased : " + quantityOfProductsPurchased + "\n" +
+                "Total Amount : " + totalAmount + "\n" +
+                "Money Paid By Customer : " + moneyPaidByCustomer + "\n" +
+                "Money To Be Returned : " + moneyToBeReturnedByVendingMachine;
+    }
+
     //    public void addProductToThePurchase(String productId, Integer quantity){
 //        quantityOfProductsPurchased.put(productId, quantity);
 //    }
