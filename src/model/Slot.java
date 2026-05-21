@@ -30,11 +30,11 @@ public class Slot {
     }
 
     public void addFoodItemToSlot(String theIdOfFoodToAdd, Integer quantity){
-        foodItemsInSlot.put(theIdOfFoodToAdd, quantity);
+        foodItemsInSlot.put(theIdOfFoodToAdd, foodItemsInSlot.get(theIdOfFoodToAdd)+quantity);
     }
 
-    public void removeFoodItemFromSlot(String foodToRemove){
-        foodItemsInSlot.remove(foodToRemove);
+    public void removeFoodItemFromSlot(String theIdOfFoodToRemove, Integer quantity){
+        foodItemsInSlot.remove(theIdOfFoodToRemove, foodItemsInSlot.get(theIdOfFoodToRemove) - quantity);
     }
 
 }

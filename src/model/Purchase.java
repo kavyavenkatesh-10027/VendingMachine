@@ -2,24 +2,24 @@ package model;
 
 import util.Generator;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class Purchase {
     private final String purchaseId;
-    private final LocalDate purchaseTime;
+    private final LocalDateTime purchaseTime;
     private final Map<String, Integer> quantityOfProductsPurchased;
     //The above is a map for Product id -> Quantity bought.
     private final double totalAmount;
-    private final double moneyPayedByCustomer;
+    private final double moneyPaidByCustomer;
     private final double moneyToBeReturnedByVendingMachine;
 
-    public Purchase(Map<String, Integer> quantityOfProductsPurchased, double totalAmount, double moneyPayedByCustomer, double moneyToBeReturnedByVendingMachine){
+    public Purchase(Map<String, Integer> quantityOfProductsPurchased, double totalAmount, double moneyPaidByCustomer, double moneyToBeReturnedByVendingMachine){
         this.purchaseId = Generator.generatePurchaseId();
-        this.purchaseTime = LocalDate.now();
+        this.purchaseTime = LocalDateTime.now();
         this.quantityOfProductsPurchased = quantityOfProductsPurchased;
         this.totalAmount = totalAmount;
-        this.moneyPayedByCustomer =moneyPayedByCustomer;
+        this.moneyPaidByCustomer = moneyPaidByCustomer;
         this.moneyToBeReturnedByVendingMachine = moneyToBeReturnedByVendingMachine;
     }
 
@@ -27,7 +27,7 @@ public class Purchase {
         return purchaseId;
     }
 
-    public LocalDate getPurchaseTime() {
+    public LocalDateTime getPurchaseTime() {
         return purchaseTime;
     }
 
@@ -39,8 +39,8 @@ public class Purchase {
         return totalAmount;
     }
 
-    public double getMoneyPayedByCustomer() {
-        return moneyPayedByCustomer;
+    public double getMoneyPaidByCustomer() {
+        return moneyPaidByCustomer;
     }
 
     public double getMoneyToBeReturnedByVendingMachine() {
