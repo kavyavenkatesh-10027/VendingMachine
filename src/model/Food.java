@@ -24,7 +24,7 @@ public class Food extends Product{
             throw new IllegalArgumentException("Ingredients must be mentioned");
         }
 
-        if (expiryDate == null|| expiryDate.isBefore(LocalDate.now())){
+        if (expiryDate == null){
             throw new IllegalArgumentException("Product has already expired");
         }
 
@@ -51,10 +51,16 @@ public class Food extends Product{
     }
 
     public void addIngredient(String newIngredient){
+        if (newIngredient == null){
+            throw new IllegalArgumentException("You cannot add empty ingredient");
+        }
         ingredients.add(newIngredient);
     }
 
     public void removeIngredient(String ingredientToRemove){
+        if (!ingredients.contains(ingredientToRemove)){
+            throw new IllegalArgumentException("You cannot remove a non-existing ingredient");
+        }
         ingredients.remove(ingredientToRemove);
     }
 
