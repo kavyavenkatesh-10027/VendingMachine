@@ -34,6 +34,14 @@ public class Slot {
     }
 
     public void addNewFoodTypeToSlot(String theIdOfNewFoodToAdd, Integer quantity){
+        if (theIdOfNewFoodToAdd == null){
+            throw new IllegalArgumentException("The id of new food to add cannot be empty");
+        }
+
+        if (quantity<=0){
+            throw new IllegalArgumentException("Must add at least one item to slot");
+        }
+
         foodItemsInSlot.put(theIdOfNewFoodToAdd, quantity);
     }
 
