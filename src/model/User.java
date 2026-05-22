@@ -3,7 +3,6 @@ package model;
 import util.Gender;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public abstract class User {
     private final String name;
