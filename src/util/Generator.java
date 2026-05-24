@@ -11,6 +11,10 @@ public class Generator {
         return "vendingMachine-"+nextVendingMachineId++;
     }
 
+    public static String peekNextVendingMachineId() {
+        return "vendingMachine-"+nextVendingMachineId;
+    }
+
     public static String generateSlotId() {
         return "slot-"+nextSlotId++;
     }
@@ -26,4 +30,6 @@ public class Generator {
     public static String generatePurchaseId(){
         return "purchase-"+nextPurchaseId++;
     }
+
+
 }
