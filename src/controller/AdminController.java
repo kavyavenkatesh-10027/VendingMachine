@@ -53,7 +53,7 @@ public class AdminController {
     }
 
     public Food registerFood(String productName, String brand, String description,
-                             String warning, double price, String manufacturingLocation,
+                             String warning, double price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
         return foodService.registerFood(productName, brand, description, warning, price,

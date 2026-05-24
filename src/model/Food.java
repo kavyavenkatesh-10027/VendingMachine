@@ -1,6 +1,7 @@
 package model;
 
 import util.FoodType;
+import util.Location;
 import util.VegNonVeg;
 
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ public class Food extends Product{
     private final LocalDate expiryDate;
     private final FoodType foodType;
 
-    public Food(String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate, VegNonVeg vegOrNonVeg, List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
+    public Food(String productName, String brand, String description, String warning, double price, Location manufacturingLocation, LocalDate manufacturingDate, VegNonVeg vegOrNonVeg, List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
         super(productName, brand, description, warning, price, manufacturingLocation, manufacturingDate);
 
         if (vegOrNonVeg == null){

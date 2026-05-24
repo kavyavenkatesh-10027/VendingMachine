@@ -3,6 +3,7 @@ package service;
 import model.Food;
 import repository.FoodRepository;
 import util.FoodType;
+import util.Location;
 import util.VegNonVeg;
 import util.VendingMachineException;
 
@@ -25,7 +26,7 @@ public class FoodService {
 
 
     public Food registerFood(String productName, String brand, String description,
-                             String warning, double price, String manufacturingLocation,
+                             String warning, double price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
 
@@ -41,7 +42,7 @@ public class FoodService {
         if (price < 0) {
             throw new VendingMachineException("Price cannot be negative.");
         }
-        if (manufacturingLocation == null || manufacturingLocation.trim().isEmpty()) {
+        if (manufacturingLocation == null) {
             throw new VendingMachineException("Manufacturing location cannot be null or empty.");
         }
         if (manufacturingDate == null) {
