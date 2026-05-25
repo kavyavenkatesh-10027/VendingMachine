@@ -2,7 +2,7 @@ package model;
 
 import util.Generator;
 
-import javax.swing.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
@@ -11,28 +11,29 @@ public class Purchase {
     private final String purchaseId;
     private final LocalDateTime purchaseTime;
     private final Map<String, Integer> quantityOfProductsPurchased;
-    //The above is a map for Product id -> Quantity bought.
-    private final double totalAmount;
-    private final double moneyPaidByCustomer;
-    private final double moneyToBeReturnedByVendingMachine;
+    // The above is a map for Product id -> Quantity bought.
+    private final BigDecimal totalAmount;
+    private final BigDecimal moneyPaidByCustomer;
+    private final BigDecimal moneyToBeReturnedByVendingMachine;
 
-    public Purchase(Map<String, Integer> quantityOfProductsPurchased, double totalAmount, double moneyPaidByCustomer, double moneyToBeReturnedByVendingMachine){
+    public Purchase(Map<String, Integer> quantityOfProductsPurchased,
+                    BigDecimal totalAmount,
+                    BigDecimal moneyPaidByCustomer,
+                    BigDecimal moneyToBeReturnedByVendingMachine) {
+
         this.purchaseId = Generator.generatePurchaseId();
         this.purchaseTime = LocalDateTime.now();
 
-        if(quantityOfProductsPurchased == null || quantityOfProductsPurchased.isEmpty()){
+        if (quantityOfProductsPurchased == null || quantityOfProductsPurchased.isEmpty()) {
             throw new IllegalArgumentException("Purchase isn't logical with no product");
         }
-
-        if (totalAmount<0){
+        if (totalAmount == null || totalAmount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Total amount cannot be negative");
         }
-
-        if (moneyPaidByCustomer<0){
+        if (moneyPaidByCustomer == null || moneyPaidByCustomer.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Money paid by customer cannot be negative");
         }
-
-        if (moneyToBeReturnedByVendingMachine<0){
+        if (moneyToBeReturnedByVendingMachine == null || moneyToBeReturnedByVendingMachine.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Balance cannot be negative");
         }
 
@@ -54,15 +55,15 @@ public class Purchase {
         return Collections.unmodifiableMap(quantityOfProductsPurchased);
     }
 
-    public double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public double getMoneyPaidByCustomer() {
+    public BigDecimal getMoneyPaidByCustomer() {
         return moneyPaidByCustomer;
     }
 
-    public double getMoneyToBeReturnedByVendingMachine() {
+    public BigDecimal getMoneyToBeReturnedByVendingMachine() {
         return moneyToBeReturnedByVendingMachine;
     }
 
@@ -75,12 +76,4 @@ public class Purchase {
                 "Money Paid By Customer : " + moneyPaidByCustomer + "\n" +
                 "Money To Be Returned : " + moneyToBeReturnedByVendingMachine;
     }
-
-    //    public void addProductToThePurchase(String productId, Integer quantity){
-//        quantityOfProductsPurchased.put(productId, quantity);
-//    }
-//
-//    public void removeProductToThePurchase(String productId){
-//        quantityOfProductsPurchased.remove(productId);
-//    }
 }

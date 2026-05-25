@@ -11,6 +11,7 @@ import util.Location;
 import util.VegNonVeg;
 import util.VendingMachineException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class AdminController {
     }
 
     public Food registerFood(String productName, String brand, String description,
-                             String warning, double price, Location manufacturingLocation,
+                             String warning, BigDecimal price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
         return foodService.registerFood(productName, brand, description, warning, price,
@@ -107,11 +108,11 @@ public class AdminController {
         foodService.editName(foodId, newName);
     }
 
-    public void editFoodPrice(String foodId, double newPrice) {
+    public void editFoodPrice(String foodId, BigDecimal newPrice) {
         if (foodId == null || foodId.trim().isEmpty()) {
             throw new VendingMachineException("Food ID cannot be null or empty.");
         }
-        if (newPrice < 0) {
+        if (newPrice.intValue() < 0) {
             throw new VendingMachineException("Price cannot be negative.");
         }
         foodService.editPrice(foodId, newPrice);

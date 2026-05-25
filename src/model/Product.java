@@ -1,7 +1,9 @@
 package model;
 
 import util.Generator;
+import util.Location;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Product {
@@ -10,11 +12,11 @@ public class Product {
     private String brand;
     private String description;
     private String warning;
-    private double price;
-    private final String manufacturingLocation;
+    private BigDecimal price;
+    private final Location manufacturingLocation;
     private final LocalDate manufacturingDate;
 
-    public Product(String productName, String brand, String description, String warning, double price, String manufacturingLocation, LocalDate manufacturingDate){
+    public Product(String productName, String brand, String description, String warning, BigDecimal price, Location manufacturingLocation, LocalDate manufacturingDate){
         this.productId = Generator.generateProductId();
 
         if (productName == null || productName.trim().isEmpty()){
@@ -29,7 +31,7 @@ public class Product {
             throw new IllegalArgumentException("Product must have a description");
         }
 
-        if (price<0){
+        if (price.intValue()<0){
             throw new IllegalArgumentException("Price of product cannot be negative");
         }
 
@@ -98,19 +100,19 @@ public class Product {
         this.warning = warning;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        if (price<0){
+    public void setPrice(BigDecimal price) {
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0){
             throw new IllegalArgumentException("Price of product cannot be negative");
         }
 
         this.price = price;
     }
 
-    public String getManufacturingLocation() {
+    public Location getManufacturingLocation() {
         return manufacturingLocation;
     }
 

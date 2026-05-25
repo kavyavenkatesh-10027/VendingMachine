@@ -9,6 +9,7 @@ import util.Location;
 import util.VegNonVeg;
 import util.VendingMachineException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -114,7 +115,7 @@ public class AdminUI {
         String warning = scanner.nextLine().trim();
         if (warning.isEmpty()) warning = null;
 
-        double price = readDouble("Price: ");
+        BigDecimal price = readBigDecimal("Price: ");
 
         System.out.print("Manufacturing location: ");
         Location manufacturingLocation = readEnum(Location.class, "Machine Location");;
@@ -191,7 +192,7 @@ public class AdminUI {
         System.out.println("\n--- Edit Food Price ---");
         System.out.print("Food ID: ");
         String foodId = scanner.nextLine().trim();
-        double newPrice = readDouble("New price: ");
+        BigDecimal newPrice = readBigDecimal("New price: ");
         adminController.editFoodPrice(foodId, newPrice);
         System.out.println("Price updated.");
     }
@@ -275,11 +276,11 @@ public class AdminUI {
         }
     }
 
-    private double readDouble(String prompt) {
+    private BigDecimal readBigDecimal(String prompt) {
         while (true) {
             System.out.print(prompt);
             try {
-                return Double.parseDouble(scanner.nextLine().trim());
+                return new BigDecimal(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number. Please try again.");
             }

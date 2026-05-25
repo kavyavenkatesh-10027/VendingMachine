@@ -7,6 +7,7 @@ import util.Location;
 import util.VegNonVeg;
 import util.VendingMachineException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class FoodService {
 
 
     public Food registerFood(String productName, String brand, String description,
-                             String warning, double price, Location manufacturingLocation,
+                             String warning, BigDecimal price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
 
@@ -39,7 +40,7 @@ public class FoodService {
         if (description == null || description.trim().isEmpty()) {
             throw new VendingMachineException("Description cannot be null or empty.");
         }
-        if (price < 0) {
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
             throw new VendingMachineException("Price cannot be negative.");
         }
         if (manufacturingLocation == null) {
@@ -113,8 +114,8 @@ public class FoodService {
         getFoodById(foodId).setBrand(newBrand);
     }
 
-    public void editPrice(String foodId, double newPrice) {
-        if (newPrice < 0) {
+    public void editPrice(String foodId, BigDecimal newPrice) {
+        if (newPrice.compareTo(BigDecimal.ZERO) < 0) {
             throw new VendingMachineException("Price cannot be negative.");
         }
         getFoodById(foodId).setPrice(newPrice);
