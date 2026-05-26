@@ -22,7 +22,6 @@ public class ConsumerUI {
         this.scanner = scanner;
     }
 
-
     public void show() {
         boolean running = true;
         while (running) {
