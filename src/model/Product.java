@@ -13,10 +13,10 @@ public class Product {
     private String description;
     private String warning;
     private BigDecimal price;
-    private final Location manufacturingLocation;
+    private final String manufacturingLocation;
     private final LocalDate manufacturingDate;
 
-    public Product(String productName, String brand, String description, String warning, BigDecimal price, Location manufacturingLocation, LocalDate manufacturingDate){
+    public Product(String productName, String brand, String description, String warning, BigDecimal price, String manufacturingLocation, LocalDate manufacturingDate){
         this.productId = Generator.generateProductId();
 
         if (productName == null || productName.trim().isEmpty()){
@@ -112,7 +112,7 @@ public class Product {
         this.price = price;
     }
 
-    public Location getManufacturingLocation() {
+    public String getManufacturingLocation() {
         return manufacturingLocation;
     }
 
