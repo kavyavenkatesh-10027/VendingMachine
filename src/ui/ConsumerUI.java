@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ConsumerUI {
-    private final Scanner            scanner;
+    private final Scanner scanner;
     private final ConsumerController controller = new ConsumerController();
 
     public ConsumerUI(Scanner scanner) {
