@@ -1,15 +1,8 @@
 package controller;
 
-import model.Food;
-import model.Slot;
-import model.VendingMachine;
-import service.FoodService;
-import service.SlotService;
-import service.VendingMachineService;
-import util.FoodType;
-import util.Location;
-import util.VegNonVeg;
-import util.VendingMachineException;
+import model.*;
+import service.*;
+import util.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,6 +14,8 @@ public class AdminController extends BaseController{
     private final VendingMachineService vendingMachineService = VendingMachineService.getInstance();
     private final SlotService slotService = SlotService.getInstance();
     private final FoodService foodService = FoodService.getInstance();
+    private final CurrencyService currencyService = CurrencyService.getInstance();
+    private final PurchaseService purchaseService = PurchaseService.getInstance();
 
     public VendingMachine createVendingMachine(Location location,
                                                LocalDate establishedOn,
@@ -54,7 +49,7 @@ public class AdminController extends BaseController{
     }
 
     public Food registerFood(String productName, String brand, String description,
-                             String warning, BigDecimal price, Location manufacturingLocation,
+                             String warning, BigDecimal price, String manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
         return foodService.registerFood(productName, brand, description, warning, price,
@@ -112,7 +107,7 @@ public class AdminController extends BaseController{
         if (foodId == null || foodId.trim().isEmpty()) {
             throw new VendingMachineException("Food ID cannot be null or empty.");
         }
-        if (newPrice.intValue() < 0) {
+        if (newPrice.compareTo(BigDecimal.ZERO) < 0) {
             throw new VendingMachineException("Price cannot be negative.");
         }
         foodService.editPrice(foodId, newPrice);

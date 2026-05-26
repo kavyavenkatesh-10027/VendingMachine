@@ -118,7 +118,7 @@ public class AdminUI {
         BigDecimal price = readBigDecimal("Price: ");
 
         System.out.print("Manufacturing location: ");
-        Location manufacturingLocation = readEnum(Location.class, "Machine Location");;
+        String manufacturingLocation = scanner.nextLine();
 
         LocalDate manufacturingDate = readDate("Manufacturing date (yyyy-MM-dd): ");
         LocalDate expiryDate = readDate("Expiry date (yyyy-MM-dd): ");
