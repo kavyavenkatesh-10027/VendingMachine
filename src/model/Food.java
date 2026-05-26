@@ -27,7 +27,7 @@ public class Food extends Product{
         }
 
         if (expiryDate == null){
-            throw new IllegalArgumentException("Product has already expired");
+            throw new IllegalArgumentException("Expiry date cannot be null");
         }
 
         if (foodType == null){

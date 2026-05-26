@@ -36,7 +36,7 @@ public class Product {
         }
 
         if (manufacturingLocation == null){
-            throw new IllegalArgumentException("Product must have a name");
+            throw new IllegalArgumentException("Product must have a manufacturing location");
         }
 
         if (manufacturingDate == null || manufacturingDate.isAfter(LocalDate.now())){

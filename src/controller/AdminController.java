@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-public class AdminController {
+public class AdminController extends BaseController{
 
     private final VendingMachineService vendingMachineService = VendingMachineService.getInstance();
     private final SlotService slotService = SlotService.getInstance();
