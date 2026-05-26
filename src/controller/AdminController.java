@@ -127,7 +127,7 @@ public class AdminController extends BaseController{
         if (foodId == null || foodId.trim().isEmpty()) {
             throw new VendingMachineException("Food ID cannot be null or empty.");
         }
-        // warning is optional — null clears it, so no empty-check here
+        // warning is optional, null clears it, so no check here
         foodService.editWarning(foodId, newWarning);
     }
 
