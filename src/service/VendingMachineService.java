@@ -2,6 +2,7 @@ package service;
 
 import model.Slot;
 import model.VendingMachine;
+import repository.FoodRepository;
 import repository.SlotRepository;
 import repository.VendingMachineRepository;
 import util.Generator;
@@ -18,6 +19,7 @@ public class VendingMachineService {
     private static VendingMachineService instance;
     private final VendingMachineRepository vmRepository = VendingMachineRepository.getInstance();
     private final SlotRepository slotRepository = SlotRepository.getInstance();
+    private final FoodRepository foodRepository = FoodRepository.getInstance();
 
     private VendingMachineService() {}
 
@@ -99,6 +101,9 @@ public class VendingMachineService {
         for (Map.Entry<String, Integer> entry : foodItems.entrySet()) {
             if (entry.getKey() == null || entry.getKey().trim().isEmpty()) {
                 throw new VendingMachineException("Food ID in slot cannot be null or empty.");
+            }
+            if (!foodRepository.existsById(entry.getKey())){
+                throw new VendingMachineException("No food of ID: "+ entry.getKey() + " has been registered");
             }
             if (entry.getValue() == null || entry.getValue() <= 0) {
                 throw new VendingMachineException(
