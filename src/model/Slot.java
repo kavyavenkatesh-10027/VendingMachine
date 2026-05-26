@@ -51,7 +51,11 @@ public class Slot {
         }
     }
 
-    public void removeFoodItemFromSlot(String theIdOfFoodItemToRemove, Integer quantity){
+    public void removeFoodItemFromSlot(String theIdOfFoodItemToRemove, Integer quantity) {
+        if (theIdOfFoodItemToRemove == null || theIdOfFoodItemToRemove.trim().isEmpty()) {
+            throw new IllegalArgumentException("Food ID to remove cannot be null or empty.");
+        }
+
         foodItemsInSlot.put(theIdOfFoodItemToRemove, foodItemsInSlot.get(theIdOfFoodItemToRemove) - quantity);
     }
 

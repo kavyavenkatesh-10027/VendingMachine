@@ -138,4 +138,16 @@ public class AdminController extends BaseController{
     public List<Food> getAllFoods() {
         return foodService.getAllFoods();
     }
+
+    public Map<IndianCurrency, Integer> getDenominationBreakdown() {
+        return currencyService.getDrawer();
+    }
+
+    public int getTotalCashInMachine() {
+        return currencyService.totalCashInMachine();
+    }
+
+    public List<Purchase> getAllPurchases() {
+        return purchaseService.getAllPurchases();
+    }
 }

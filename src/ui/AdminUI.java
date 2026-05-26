@@ -40,9 +40,11 @@ public class AdminUI {
             System.out.println("7. Edit food name");
             System.out.println("8. Edit food price");
             System.out.println("9. Edit food brand");
-            System.out.println("10. Edit food warning");
+            System.out.println("10. Edit food warning(Clear/Add");
             System.out.println("11. View all vending machines");
             System.out.println("12. View all food items");
+            System.out.println("13. View cash drawer (denominations)");
+            System.out.println("14. View purchase history");
             System.out.println("0. Exit");
             System.out.println("=================================");
             System.out.print("Choice: ");
@@ -63,6 +65,8 @@ public class AdminUI {
                     case "10": editFoodWarning(); break;
                     case "11": viewAllVendingMachines(); break;
                     case "12": viewAllFoods(); break;
+                    case "13": viewCashDrawer(); break;
+                    case "14": viewPurchaseHistory(); break;
                     case "0":  running = false; break;
                     default:   System.out.println("Invalid choice. Please try again.");
                 }
@@ -243,6 +247,35 @@ public class AdminUI {
             System.out.println("-------------------------");
         }
     }
+
+    private void viewCashDrawer() {
+        System.out.println("\n===== Cash Drawer =====");
+        Map<util.IndianCurrency, Integer> drawer = adminController.getDenominationBreakdown();
+        for (Map.Entry<util.IndianCurrency, Integer> entry : drawer.entrySet()) {
+            System.out.printf("  Rs.%-4d  x %d%n", entry.getKey().getValue(), entry.getValue());
+        }
+        System.out.println("  ──────────────────────");
+        System.out.println("  Total cash : Rs." + adminController.getTotalCashInMachine());
+    }
+
+    private void viewPurchaseHistory() {
+        List<model.Purchase> purchases = adminController.getAllPurchases();
+        if (purchases.isEmpty()) {
+            System.out.println("No purchases recorded yet.");
+            return;
+        }
+        System.out.println("\n===== Purchase History =====");
+        for (model.Purchase p : purchases) {
+            System.out.println("  ID     : " + p.getPurchaseId());
+            System.out.println("  Time   : " + p.getPurchaseTime());
+            System.out.println("  Items  : " + p.getQuantityOfProductsPurchased());
+            System.out.println("  Total  : Rs." + p.getTotalAmount());
+            System.out.println("  Paid   : Rs." + p.getMoneyPaidByCustomer());
+            System.out.println("  Change : Rs." + p.getMoneyToBeReturnedByVendingMachine());
+            System.out.println("  ────────────────────────────");
+        }
+    }
+
 
     // These reads were recurring, so created a separate method
 
