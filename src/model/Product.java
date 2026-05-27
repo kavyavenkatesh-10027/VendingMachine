@@ -31,8 +31,8 @@ public class Product {
             throw new IllegalArgumentException("Product must have a description");
         }
 
-        if (price.intValue()<0){
-            throw new IllegalArgumentException("Price of product cannot be negative");
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Price of product cannot be null or negative");
         }
 
         if (manufacturingLocation == null){
