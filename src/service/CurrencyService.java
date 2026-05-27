@@ -22,6 +22,13 @@ public class CurrencyService {
         return instance;
     }
 
+    public void addToDrawer(IndianCurrency denomination, int count) {
+        if (count <= 0) {
+            throw new VendingMachineException("Count must be greater than zero.");
+        }
+        currencyRepository.add(denomination, count);
+    }
+
     public BigDecimal acceptPayment(Map<IndianCurrency, Integer> inserted) {
         if (inserted == null || inserted.isEmpty()) {
             throw new VendingMachineException("No money inserted.");

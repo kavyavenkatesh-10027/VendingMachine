@@ -139,8 +139,30 @@ public class AdminController extends BaseController{
         return foodService.getAllFoods();
     }
 
+    public Map<Food, Integer> getProductCountForMachine(String vendingMachineId) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
+        return viewAvailableQuantityForAllProducts(vendingMachineId);
+    }
+
     public Map<IndianCurrency, Integer> getDenominationBreakdown() {
         return currencyService.getDrawer();
+    }
+
+    public void addCashToDrawer(Map<IndianCurrency, Integer> denominations) {
+        if (denominations == null || denominations.isEmpty()) {
+            throw new VendingMachineException("Denomination map cannot be null or empty.");
+        }
+        for (Map.Entry<IndianCurrency, Integer> entry : denominations.entrySet()) {
+            if (entry.getValue() == null || entry.getValue() <= 0) {
+                throw new VendingMachineException(
+                        "Count for Rs." + entry.getKey().getValue() + " must be greater than zero.");
+            }
+        }
+        for (Map.Entry<IndianCurrency, Integer> entry : denominations.entrySet()) {
+            currencyService.addToDrawer(entry.getKey(), entry.getValue());
+        }
     }
 
     public int getTotalCashInMachine() {

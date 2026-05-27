@@ -1,13 +1,8 @@
 package ui;
 
 import controller.AdminController;
-import model.Food;
-import model.Slot;
-import model.VendingMachine;
-import util.FoodType;
-import util.Location;
-import util.VegNonVeg;
-import util.VendingMachineException;
+import model.*;
+import util.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import java.util.EnumMap;
 
 public class AdminUI {
 
@@ -40,11 +37,13 @@ public class AdminUI {
             System.out.println("7. Edit food name");
             System.out.println("8. Edit food price");
             System.out.println("9. Edit food brand");
-            System.out.println("10. Edit food warning(Clear/Add");
+            System.out.println("10. Edit food warning(Clear/Add)");
             System.out.println("11. View all vending machines");
             System.out.println("12. View all food items");
-            System.out.println("13. View cash drawer (denominations)");
-            System.out.println("14. View purchase history");
+            System.out.println("13. View product count at a machine");
+            System.out.println("14. View cash drawer (denominations)");
+            System.out.println("15. Add cash to drawer");
+            System.out.println("16. View purchase history");
             System.out.println("0. Exit");
             System.out.println("=================================");
             System.out.print("Choice: ");
@@ -65,8 +64,10 @@ public class AdminUI {
                     case "10": editFoodWarning(); break;
                     case "11": viewAllVendingMachines(); break;
                     case "12": viewAllFoods(); break;
-                    case "13": viewCashDrawer(); break;
-                    case "14": viewPurchaseHistory(); break;
+                    case "13": viewProductCount(); break;
+                    case "14": viewCashDrawer(); break;
+                    case "15": addCashToDrawer(); break;
+                    case "16": viewPurchaseHistory(); break;
                     case "0":  running = false; break;
                     default:   System.out.println("Invalid choice. Please try again.");
                 }
@@ -250,8 +251,8 @@ public class AdminUI {
 
     private void viewCashDrawer() {
         System.out.println("\n===== Cash Drawer =====");
-        Map<util.IndianCurrency, Integer> drawer = adminController.getDenominationBreakdown();
-        for (Map.Entry<util.IndianCurrency, Integer> entry : drawer.entrySet()) {
+        Map<IndianCurrency, Integer> drawer = adminController.getDenominationBreakdown();
+        for (Map.Entry<IndianCurrency, Integer> entry : drawer.entrySet()) {
             System.out.printf("  Rs.%-4d  x %d%n", entry.getKey().getValue(), entry.getValue());
         }
         System.out.println("  ──────────────────────");
@@ -259,13 +260,13 @@ public class AdminUI {
     }
 
     private void viewPurchaseHistory() {
-        List<model.Purchase> purchases = adminController.getAllPurchases();
+        List<Purchase> purchases = adminController.getAllPurchases();
         if (purchases.isEmpty()) {
             System.out.println("No purchases recorded yet.");
             return;
         }
         System.out.println("\n===== Purchase History =====");
-        for (model.Purchase p : purchases) {
+        for (Purchase p : purchases) {
             System.out.println("  ID     : " + p.getPurchaseId());
             System.out.println("  Time   : " + p.getPurchaseTime());
             System.out.println("  Items  : " + p.getQuantityOfProductsPurchased());
@@ -276,6 +277,67 @@ public class AdminUI {
         }
     }
 
+    private void addCashToDrawer() {
+        System.out.println("\n--- Add Cash to Drawer ---");
+        Map<IndianCurrency, Integer> denominations = new EnumMap<>(IndianCurrency.class);
+
+        System.out.println("Enter how many of each denomination to add (Enter to skip):");
+        for (IndianCurrency denom : IndianCurrency.values()) {
+            System.out.print("  Rs." + denom.getValue() + ": ");
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) continue;
+            try {
+                int count = Integer.parseInt(input);
+                if (count > 0) {
+                    denominations.put(denom, count);
+                } else {
+                    System.out.println("  Skipped — must be greater than zero.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("  Invalid input, skipping Rs." + denom.getValue());
+            }
+        }
+
+        if (denominations.isEmpty()) {
+            System.out.println("No denominations entered. Nothing added.");
+            return;
+        }
+
+        adminController.addCashToDrawer(denominations);
+
+        System.out.println("\nCash added. Current drawer:");
+        for (Map.Entry<IndianCurrency, Integer> entry : adminController.getDenominationBreakdown().entrySet()) {
+            System.out.printf("  Rs.%-4d  x  %d%n", entry.getKey().getValue(), entry.getValue());
+        }
+        System.out.println("  Total : Rs." + adminController.getTotalCashInMachine());
+    }
+
+    private void viewProductCount() {
+        System.out.println("\n--- Product Count at Machine ---");
+        System.out.print("Vending machine ID: ");
+        String vmId = scanner.nextLine().trim();
+
+        Map<Food, Integer> stockMap = adminController.getProductCountForMachine(vmId);
+
+        if (stockMap.isEmpty()) {
+            System.out.println("No products currently stocked in this machine.");
+            return;
+        }
+
+        System.out.printf("\n  %-14s %-22s %8s  %6s%n", "Food ID", "Name", "Price", "Stock");
+        System.out.println("  ──────────────────────────────────────────────────");
+        for (Map.Entry<Food, Integer> entry : stockMap.entrySet()) {
+            Food food = entry.getKey();
+            System.out.printf("  %-14s %-22s Rs.%-5s  %6d%n",
+                    food.getProductId(),
+                    food.getProductName(),
+                    food.getPrice(),
+                    entry.getValue());
+        }
+        System.out.println("  ──────────────────────────────────────────────────");
+        int total = stockMap.values().stream().mapToInt(Integer::intValue).sum();
+        System.out.println("  Total units : " + total);
+    }
 
     // These reads were recurring, so created a separate method
 

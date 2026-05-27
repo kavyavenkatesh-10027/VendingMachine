@@ -1,11 +1,8 @@
 package ui;
 
 import controller.ConsumerController;
-import model.Food;
-import model.Purchase;
-import model.VendingMachine;
-import util.IndianCurrency;
-import util.VendingMachineException;
+import model.*;
+import util.*;
 
 import java.math.BigDecimal;
 import java.util.EnumMap;
@@ -211,7 +208,7 @@ public class ConsumerUI {
         return payment;
     }
 
-    private void printReceipt(model.Purchase purchase) {
+    private void printReceipt(Purchase purchase) {
         System.out.println("\n=====================================");
         System.out.println("              RECEIPT");
         System.out.println("=====================================");
