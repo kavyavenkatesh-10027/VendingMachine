@@ -7,7 +7,7 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //Authentication is yet to be done, so calling from here directly.
+        //Authentication is yet to be done, so calling from here directly for now.
         Scanner scanner = new Scanner(System.in);
 
         AdminUI aui = new AdminUI(scanner);
