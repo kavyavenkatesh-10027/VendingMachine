@@ -99,6 +99,7 @@ public class CurrencyService {
         }
 
         for (Map.Entry<IndianCurrency, Integer> entry : inserted.entrySet()) {
+            validateDenomination(entry.getKey());
             drawer.deduct(entry.getKey(), entry.getValue());
         }
     }
@@ -126,8 +127,8 @@ public class CurrencyService {
     }
 
     private void validateCount(int count) {
-        if (count <= 0) {
-            throw new VendingMachineException("Count must be greater than zero.");
+        if (count < 0) {
+            throw new VendingMachineException("Count cannot be negative.");
         }
     }
 }
