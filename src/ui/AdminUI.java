@@ -16,7 +16,7 @@ import java.util.Scanner;
 import java.util.EnumMap;
 
 public class AdminUI {
-
+//Used Ai for clean output
     private final Scanner scanner;
     private final AdminController adminController = new AdminController();
 
