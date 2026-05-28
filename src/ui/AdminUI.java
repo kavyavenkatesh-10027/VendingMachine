@@ -123,7 +123,7 @@ public class AdminUI {
         BigDecimal price = readBigDecimal("Price: ");
 
         System.out.print("Manufacturing location: ");
-        String manufacturingLocation = scanner.nextLine();
+        Location manufacturingLocation = readEnum(Location.class, "Manufacturing location");
 
         LocalDate manufacturingDate = readDate("Manufacturing date (yyyy-MM-dd): ");
         LocalDate expiryDate = readDate("Expiry date (yyyy-MM-dd): ");
@@ -387,9 +387,12 @@ public class AdminUI {
         while (true) {
             System.out.print(prompt);
             try {
-                return Integer.parseInt(scanner.nextLine().trim());
+                int readInt = Integer.parseInt(scanner.nextLine().trim());
+                if(readInt>0) {
+                    return Integer.parseInt(scanner.nextLine().trim());
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Please enter a whole number.");
+                System.out.println("Invalid number. Please enter a whole number greater than zero.");
             }
         }
     }
