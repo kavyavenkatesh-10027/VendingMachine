@@ -79,11 +79,11 @@ public class PurchaseService {
         BigDecimal total = calculateTotal(cart);
 
 
-        BigDecimal amountPaid = currencyService.acceptPayment(inserted);
+        BigDecimal amountPaid = currencyService.acceptPayment(vm.getDrawer(), inserted);
 
         if (amountPaid.intValue() < total.intValue()) {
             // Refunding the inserted amount
-            currencyService.refund(inserted);
+            currencyService.refund(vm.getDrawer(), inserted);
             System.out.println("Money refunded");
             throw new VendingMachineException(
                     "Insufficient payment. Total: Rs." + total + ", Paid: Rs." + amountPaid);
@@ -94,9 +94,9 @@ public class PurchaseService {
         Map<IndianCurrency, Integer> change;
 
         try {
-            change = currencyService.makeChange(changeAmount);
+            change = currencyService.makeChange(vm.getDrawer(), changeAmount);
         } catch (VendingMachineException e) {
-            currencyService.refund(inserted);
+            currencyService.refund(vm.getDrawer(), inserted);
             throw e;
         }
 

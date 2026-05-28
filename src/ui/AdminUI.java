@@ -248,70 +248,6 @@ public class AdminUI {
             System.out.println("-------------------------");
         }
     }
-
-    private void viewCashDrawer() {
-        System.out.println("\n===== Cash Drawer =====");
-        Map<IndianCurrency, Integer> drawer = adminController.getDenominationBreakdown();
-        for (Map.Entry<IndianCurrency, Integer> entry : drawer.entrySet()) {
-            System.out.printf("  Rs.%-4d  x %d%n", entry.getKey().getValue(), entry.getValue());
-        }
-        System.out.println("  ──────────────────────");
-        System.out.println("  Total cash : Rs." + adminController.getTotalCashInMachine());
-    }
-
-    private void viewPurchaseHistory() {
-        List<Purchase> purchases = adminController.getAllPurchases();
-        if (purchases.isEmpty()) {
-            System.out.println("No purchases recorded yet.");
-            return;
-        }
-        System.out.println("\n===== Purchase History =====");
-        for (Purchase p : purchases) {
-            System.out.println("  ID     : " + p.getPurchaseId());
-            System.out.println("  Time   : " + p.getPurchaseTime());
-            System.out.println("  Items  : " + p.getQuantityOfProductsPurchased());
-            System.out.println("  Total  : Rs." + p.getTotalAmount());
-            System.out.println("  Paid   : Rs." + p.getMoneyPaidByCustomer());
-            System.out.println("  Change : Rs." + p.getMoneyToBeReturnedByVendingMachine());
-            System.out.println("  ────────────────────────────");
-        }
-    }
-
-    private void addCashToDrawer() {
-        System.out.println("\n--- Add Cash to Drawer ---");
-        Map<IndianCurrency, Integer> denominations = new EnumMap<>(IndianCurrency.class);
-
-        System.out.println("Enter how many of each denomination to add (Enter to skip):");
-        for (IndianCurrency denom : IndianCurrency.values()) {
-            System.out.print("  Rs." + denom.getValue() + ": ");
-            String input = scanner.nextLine().trim();
-            if (input.isEmpty()) continue;
-            try {
-                int count = Integer.parseInt(input);
-                if (count > 0) {
-                    denominations.put(denom, count);
-                } else {
-                    System.out.println("  Skipped — must be greater than zero.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("  Invalid input, skipping Rs." + denom.getValue());
-            }
-        }
-
-        if (denominations.isEmpty()) {
-            System.out.println("No denominations entered. Nothing added.");
-            return;
-        }
-
-        adminController.addCashToDrawer(denominations);
-
-        System.out.println("\nCash added. Current drawer:");
-        for (Map.Entry<IndianCurrency, Integer> entry : adminController.getDenominationBreakdown().entrySet()) {
-            System.out.printf("  Rs.%-4d  x  %d%n", entry.getKey().getValue(), entry.getValue());
-        }
-        System.out.println("  Total : Rs." + adminController.getTotalCashInMachine());
-    }
-
     private void viewProductCount() {
         System.out.println("\n--- Product Count at Machine ---");
         System.out.print("Vending machine ID: ");
@@ -337,6 +273,71 @@ public class AdminUI {
         System.out.println("  ──────────────────────────────────────────────────");
         int total = stockMap.values().stream().mapToInt(Integer::intValue).sum();
         System.out.println("  Total units : " + total);
+    }
+
+    private void viewCashDrawer() {
+        System.out.println("\n--- View Cash Drawer ---");
+        System.out.print("Vending machine ID: ");
+        String vmId = scanner.nextLine().trim();
+
+        System.out.println("\n===== Cash Drawer — " + vmId + " =====");
+        for (Map.Entry<util.IndianCurrency, Integer> entry : adminController.getDenominationBreakdown(vmId).entrySet()) {
+            System.out.printf("  Rs.%-4d  x  %d%n", entry.getKey().getValue(), entry.getValue());
+        }
+        System.out.println("  ──────────────────────");
+        System.out.println("  Total : Rs." + adminController.getTotalCashInMachine(vmId));
+    }
+
+    private void addCashToDrawer() {
+        System.out.println("\n--- Add Cash to Drawer ---");
+        System.out.print("Vending machine ID: ");
+        String vmId = scanner.nextLine().trim();
+
+        Map<util.IndianCurrency, Integer> denominations = new java.util.EnumMap<>(util.IndianCurrency.class);
+        System.out.println("Enter how many of each denomination to add (Enter to skip):");
+        for (util.IndianCurrency denom : util.IndianCurrency.values()) {
+            System.out.print("  Rs." + denom.getValue() + ": ");
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) continue;
+            try {
+                int count = Integer.parseInt(input);
+                if (count > 0) denominations.put(denom, count);
+                else System.out.println("  Skipped — must be greater than zero.");
+            } catch (NumberFormatException e) {
+                System.out.println("  Invalid input, skipping Rs." + denom.getValue());
+            }
+        }
+
+        if (denominations.isEmpty()) {
+            System.out.println("Nothing added.");
+            return;
+        }
+
+        adminController.addCashToDrawer(vmId, denominations);
+
+        System.out.println("\nCash added. Current drawer for " + vmId + ":");
+        for (Map.Entry<util.IndianCurrency, Integer> entry : adminController.getDenominationBreakdown(vmId).entrySet()) {
+            System.out.printf("  Rs.%-4d  x  %d%n", entry.getKey().getValue(), entry.getValue());
+        }
+        System.out.println("  Total : Rs." + adminController.getTotalCashInMachine(vmId));
+    }
+
+    private void viewPurchaseHistory() {
+        List<Purchase> purchases = adminController.getAllPurchases();
+        if (purchases.isEmpty()) {
+            System.out.println("No purchases recorded yet.");
+            return;
+        }
+        System.out.println("\n===== Purchase History =====");
+        for (Purchase p : purchases) {
+            System.out.println("  ID     : " + p.getPurchaseId());
+            System.out.println("  Time   : " + p.getPurchaseTime());
+            System.out.println("  Items  : " + p.getQuantityOfProductsPurchased());
+            System.out.println("  Total  : Rs." + p.getTotalAmount());
+            System.out.println("  Paid   : Rs." + p.getMoneyPaidByCustomer());
+            System.out.println("  Change : Rs." + p.getMoneyToBeReturnedByVendingMachine());
+            System.out.println("  ────────────────────────────");
+        }
     }
 
     // These reads were recurring, so created a separate method

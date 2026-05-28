@@ -146,11 +146,10 @@ public class AdminController extends BaseController{
         return viewAvailableQuantityForAllProducts(vendingMachineId);
     }
 
-    public Map<IndianCurrency, Integer> getDenominationBreakdown() {
-        return currencyService.getDrawer();
-    }
-
-    public void addCashToDrawer(Map<IndianCurrency, Integer> denominations) {
+    public void addCashToDrawer(String vendingMachineId, Map<IndianCurrency, Integer> denominations) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
         if (denominations == null || denominations.isEmpty()) {
             throw new VendingMachineException("Denomination map cannot be null or empty.");
         }
@@ -160,13 +159,20 @@ public class AdminController extends BaseController{
                         "Count for Rs." + entry.getKey().getValue() + " must be greater than zero.");
             }
         }
+        VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
         for (Map.Entry<IndianCurrency, Integer> entry : denominations.entrySet()) {
-            currencyService.addToDrawer(entry.getKey(), entry.getValue());
+            currencyService.addToDrawer(vm.getDrawer(), entry.getKey(), entry.getValue());
         }
     }
 
-    public int getTotalCashInMachine() {
-        return currencyService.totalCashInMachine();
+    public Map<IndianCurrency, Integer> getDenominationBreakdown(String vendingMachineId) {
+        VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
+        return vm.getDrawer().getDenominations();
+    }
+
+    public int getTotalCashInMachine(String vendingMachineId) {
+        VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
+        return vm.getDrawer().totalCash();
     }
 
     public List<Purchase> getAllPurchases() {

@@ -13,6 +13,7 @@ public class VendingMachine {
     private final Location vendingMachineLocation;
     private final LocalDate establishedOn;
     private final List<Slot> slotsInVendingMachine;
+    private final Drawer drawer;
 
     public VendingMachine(Location vendingMachineLocation, LocalDate establishedOn, List<Slot> slotsInVendingMachine) {
         this.vendingMachineId = Generator.generateVendingMachineId();
@@ -32,6 +33,7 @@ public class VendingMachine {
         this.vendingMachineLocation = vendingMachineLocation;
         this.establishedOn = establishedOn;
         this.slotsInVendingMachine = slotsInVendingMachine;
+        this.drawer = new Drawer();
     }
 
     public String getVendingMachineId() {
@@ -48,6 +50,10 @@ public class VendingMachine {
 
     public List<Slot> getSlotsInVendingMachine() {
         return Collections.unmodifiableList(slotsInVendingMachine);
+    }
+
+    public Drawer getDrawer() {
+        return drawer;
     }
 
     public void addSlotToVendingMachine(Slot slotToAdd){
