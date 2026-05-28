@@ -1,7 +1,6 @@
 package model;
 
 import util.FoodType;
-import util.Location;
 import util.VegNonVeg;
 
 import java.math.BigDecimal;
