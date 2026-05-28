@@ -1,5 +1,6 @@
 package model;
 
+
 import util.Generator;
 import util.Location;
 
