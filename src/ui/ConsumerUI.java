@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ConsumerUI {
+    //Used Ai for clean output
     private final Scanner scanner;
     private final ConsumerController controller = new ConsumerController();
 
