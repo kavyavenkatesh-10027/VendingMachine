@@ -80,7 +80,7 @@ public class AdminUI {
     private void createVendingMachine() {
         System.out.println("\n--- Create Vending Machine ---");
 
-        Location location = readEnum(Location.class, "Location");
+        Location location = (Location) readEnum(Location.values(), "Location");
         LocalDate establishedOn = readDate("Established on (yyyy-MM-dd): ");
         Map<String, Integer> firstSlotFoodItems = readFoodItemsMap("first slot");
 
@@ -123,17 +123,17 @@ public class AdminUI {
         BigDecimal price = readBigDecimal("Price: ");
 
         System.out.print("Manufacturing location: ");
-        Location manufacturingLocation = readEnum(Location.class, "Manufacturing location");
+        Location manufacturingLocation = (Location) readEnum(Location.values(), "Manufacturing location");
 
         LocalDate manufacturingDate = readDate("Manufacturing date (yyyy-MM-dd): ");
         LocalDate expiryDate = readDate("Expiry date (yyyy-MM-dd): ");
 
-        VegNonVeg vegOrNonVeg = readEnum(VegNonVeg.class, "Veg / Non-veg");
+        VegNonVeg vegOrNonVeg = (VegNonVeg) readEnum(VegNonVeg.values() , "Veg / Non-veg");
 
         System.out.print("Ingredients (comma-separated): ");
         List<String> ingredients = Arrays.asList(scanner.nextLine().trim().split(","));
 
-        FoodType foodType = readEnum(FoodType.class, "Food type");
+        FoodType foodType = (FoodType) readEnum(FoodType.values(), "Food type");
 
         Food food = adminController.registerFood(productName, brand, description, warning,
                 price, manufacturingLocation, manufacturingDate, vegOrNonVeg,
@@ -397,21 +397,25 @@ public class AdminUI {
         }
     }
 
-    private <T extends Enum<T>> T readEnum(Class<T> enumClass, String label) {
-        T[] values = enumClass.getEnumConstants();
-        System.out.println(label + ":");
+    private Enum<?> readEnum(Enum<?>[] values, String label) {
+
+        System.out.println(label);
+
         for (int i = 0; i < values.length; i++) {
-            System.out.println("  " + (i + 1) + ". " + values[i]);
+            System.out.println((i + 1) + ". " + values[i]);
         }
+
         while (true) {
-            System.out.print("Choice (1-" + values.length + "): ");
-            try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
-                if (choice >= 1 && choice <= values.length) {
-                    return values[choice - 1];
-                }
-            } catch (NumberFormatException ignored) {}
-            System.out.println("Invalid choice. Please enter a number between 1 and " + values.length + ".");
+
+            System.out.print("Enter choice: ");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            if (choice >= 1 && choice <= values.length) {
+                return values[choice - 1];
+            }
+
+            System.out.println("Invalid choice");
         }
     }
 }

@@ -27,7 +27,7 @@ public class FoodService {
 
 
     public Food registerFood(String productName, String brand, String description,
-                             String warning, BigDecimal price, String manufacturingLocation,
+                             String warning, BigDecimal price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
 
