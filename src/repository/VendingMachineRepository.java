@@ -1,5 +1,6 @@
 package repository;
 
+import model.Slot;
 import model.VendingMachine;
 import util.VendingMachineException;
 
@@ -42,11 +43,10 @@ public class VendingMachineRepository {
     }
 
     public boolean removeById(String vendingMachineId) {
-        for (VendingMachine vendingMachine: vendingMachines){
-            if (vendingMachine.getVendingMachineId().equals(vendingMachineId)){
-                vendingMachines.remove(vendingMachine);
-                return true;
-            }
+        VendingMachine vendingMachineToRemove = findById(vendingMachineId);
+        if (vendingMachineToRemove != null) {
+            vendingMachines.remove(vendingMachineToRemove);
+            return true;
         }
         return false;
     }

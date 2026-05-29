@@ -52,9 +52,9 @@ public class SlotRepository {
     }
 
     public boolean removeById(String slotId) {
-        Slot toRemove = findById(slotId);
-        if (toRemove != null) {
-            slots.remove(toRemove);
+        Slot SlotToRemove = findById(slotId);
+        if (SlotToRemove != null) {
+            slots.remove(SlotToRemove);
             return true;
         }
         return false;
