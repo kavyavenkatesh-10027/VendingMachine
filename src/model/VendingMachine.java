@@ -3,6 +3,7 @@ package model;
 
 import util.Generator;
 import util.Location;
+import util.VendingMachineException;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -57,7 +58,13 @@ public class VendingMachine {
     }
 
     public void addSlotToVendingMachine(Slot slotToAdd){
-        slotsInVendingMachine.add(slotToAdd);
+        if(slotToAdd==null){
+            throw new VendingMachineException("Cannot add null as a slot");
+        }
+        if(!slotToAdd.getVendingMachineId().equals(vendingMachineId)) {
+            throw new VendingMachineException("Slot belongs to a different vending machine");
+        }
+            slotsInVendingMachine.add(slotToAdd);
     }
 
     public void removeSlotFromVendingMachine(Slot slotToRemove){
