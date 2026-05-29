@@ -49,11 +49,12 @@ public class VendingMachineService {
 
         String incomingVmId = Generator.peekNextVendingMachineId();
 
-        Slot firstSlot = buildSlotForNewMachine(incomingVmId, firstSlotFoodItems);
+
 
         List<Slot> slots = new ArrayList<>();
-        slots.add(firstSlot);
         VendingMachine vm = new VendingMachine(location, establishedOn, slots);
+        Slot firstSlot = buildSlotForNewMachine(incomingVmId, firstSlotFoodItems);
+        slots.add(firstSlot);
 
         vmRepository.add(vm);
         slotRepository.add(firstSlot);

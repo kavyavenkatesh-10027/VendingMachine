@@ -27,8 +27,8 @@ public class VendingMachine {
             throw new IllegalArgumentException("Established date must be on or before the current date");
         }
 
-        if (slotsInVendingMachine == null || slotsInVendingMachine.isEmpty()){
-            throw new IllegalArgumentException("Vending machine cannot have zero slots");
+        if (slotsInVendingMachine == null){
+            throw new IllegalArgumentException("Vending machine cannot have a slot that's null");
         }
 
         this.vendingMachineLocation = vendingMachineLocation;
