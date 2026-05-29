@@ -1,6 +1,5 @@
 package repository;
 
-import model.Slot;
 import model.VendingMachine;
 import util.VendingMachineException;
 
