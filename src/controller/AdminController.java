@@ -52,6 +52,45 @@ public class AdminController extends BaseController{
                              String warning, BigDecimal price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
+
+
+        if (productName == null || productName.trim().isEmpty()) {
+            throw new VendingMachineException("Food name cannot be null or empty.");
+        }
+        if (brand == null || brand.trim().isEmpty()) {
+            throw new VendingMachineException("Brand cannot be null or empty.");
+        }
+        if (description == null || description.trim().isEmpty()) {
+            throw new VendingMachineException("Description cannot be null or empty.");
+        }
+        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new VendingMachineException("Price cannot be zero or negative.");
+        }
+        if (manufacturingLocation == null) {
+            throw new VendingMachineException("Manufacturing location cannot be null or empty.");
+        }
+        if (manufacturingDate == null) {
+            throw new VendingMachineException("Manufacturing date cannot be null.");
+        }
+        if (manufacturingDate.isAfter(LocalDate.now())) {
+            throw new VendingMachineException("Manufacturing date cannot be in the future.");
+        }
+        if (vegOrNonVeg == null) {
+            throw new VendingMachineException("Veg/Non-veg classification cannot be null.");
+        }
+        if (ingredients == null || ingredients.isEmpty()) {
+            throw new VendingMachineException("At least one ingredient must be provided.");
+        }
+        if (expiryDate == null) {
+            throw new VendingMachineException("Expiry date cannot be null.");
+        }
+        if (expiryDate.isBefore(LocalDate.now())) {
+            throw new VendingMachineException("Cannot register an already-expired food item.");
+        }
+        if (foodType == null) {
+            throw new VendingMachineException("Food type cannot be null.");
+        }
+
         return foodService.registerFood(productName, brand, description, warning, price,
                 manufacturingLocation, manufacturingDate, vegOrNonVeg,
                 ingredients, expiryDate, foodType);
@@ -107,8 +146,8 @@ public class AdminController extends BaseController{
         if (foodId == null || foodId.trim().isEmpty()) {
             throw new VendingMachineException("Food ID cannot be null or empty.");
         }
-        if (newPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new VendingMachineException("Price cannot be negative.");
+        if (newPrice.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new VendingMachineException("Price cannot be zero or negative.");
         }
         foodService.editPrice(foodId, newPrice);
     }
