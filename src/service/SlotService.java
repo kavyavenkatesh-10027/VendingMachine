@@ -1,8 +1,7 @@
 package service;
 
-import model.Slot;
-import repository.FoodRepository;
-import repository.SlotRepository;
+import model.*;
+import repository.*;
 import util.VendingMachineException;
 
 public class SlotService {
@@ -10,6 +9,7 @@ public class SlotService {
     private static SlotService instance;
     private final SlotRepository slotRepository = SlotRepository.getInstance();
     private final FoodRepository foodRepository = FoodRepository.getInstance();
+    private final VendingMachineRepository vmRepository = VendingMachineRepository.getInstance();
 
     private SlotService() {}
 
@@ -75,5 +75,19 @@ public class SlotService {
         }
 
         slot.addMoreOfFoodItemToSlot(foodId, quantity);
+    }
+
+    public void removeSlot(String slotId) {
+        if (slotId == null || slotId.trim().isEmpty()) {
+            throw new VendingMachineException("Slot ID cannot be null or empty.");
+        }
+        Slot slot = getSlotById(slotId);
+
+        VendingMachine vm = vmRepository.findById(slot.getVendingMachineId());
+        if (vm != null) {
+            vm.removeSlotFromVendingMachine(slot);
+        }
+
+        slotRepository.removeById(slotId);
     }
 }

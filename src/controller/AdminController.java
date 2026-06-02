@@ -174,6 +174,27 @@ public class AdminController extends BaseController{
         return vendingMachineService.getAllVendingMachines();
     }
 
+    public void removeVendingMachine(String vendingMachineId) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
+        vendingMachineService.removeVendingMachine(vendingMachineId);
+    }
+
+    public void removeSlot(String slotId) {
+        if (slotId == null || slotId.trim().isEmpty()) {
+            throw new VendingMachineException("Slot ID cannot be null or empty.");
+        }
+        slotService.removeSlot(slotId);
+    }
+
+    public void removeFood(String foodId) {
+        if (foodId == null || foodId.trim().isEmpty()) {
+            throw new VendingMachineException("Food ID cannot be null or empty.");
+        }
+        foodService.removeFood(foodId);
+    }
+
     public List<Food> getAllFoods() {
         return foodService.getAllFoods();
     }

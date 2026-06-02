@@ -64,13 +64,11 @@ public class SlotRepository {
         return Collections.unmodifiableList(slots);
     }
 
-    public boolean removeById(String slotId) {
+    public void removeById(String slotId) {
         Slot SlotToRemove = findById(slotId);
         if (SlotToRemove != null) {
             slots.remove(SlotToRemove);
-            return true;
         }
-        return false;
     }
 
     public boolean existsById(String slotId) {

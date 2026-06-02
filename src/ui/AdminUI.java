@@ -27,21 +27,24 @@ public class AdminUI {
         while (running) {
             System.out.println("\n========== ADMIN MENU ==========");
             System.out.println("1. Create vending machine");
-            System.out.println("2. Add slot to vending machine");
-            System.out.println("3. Register food item");
-            System.out.println("4. Add food type to slot");
-            System.out.println("5. Refill food in slot");
-            System.out.println("6. Edit food description");
-            System.out.println("7. Edit food name");
-            System.out.println("8. Edit food price");
-            System.out.println("9. Edit food brand");
-            System.out.println("10. Edit food warning(Clear/Add)");
-            System.out.println("11. View all vending machines");
-            System.out.println("12. View all food items");
-            System.out.println("13. View product count at a machine");
-            System.out.println("14. View cash drawer (denominations)");
-            System.out.println("15. Add cash to drawer");
-            System.out.println("16. View purchase history");
+            System.out.println("2. Remove vending machine");
+            System.out.println("3. Add slot to vending machine");
+            System.out.println("4. Remove slot");
+            System.out.println("5. Register food item");
+            System.out.println("6. Remove food item");
+            System.out.println("7. Add food type to slot");
+            System.out.println("8. Refill food in slot");
+            System.out.println("9. Edit food description");
+            System.out.println("10. Edit food name");
+            System.out.println("11. Edit food price");
+            System.out.println("12. Edit food brand");
+            System.out.println("13. Edit food warning(Clear/Add)");
+            System.out.println("14. View all vending machines");
+            System.out.println("15. View all food items");
+            System.out.println("16. View product count at a machine");
+            System.out.println("17. View cash drawer (denominations)");
+            System.out.println("18. Add cash to drawer");
+            System.out.println("19. View purchase history");
             System.out.println("0. Exit");
             System.out.println("=================================");
             System.out.print("Choice: ");
@@ -51,25 +54,24 @@ public class AdminUI {
             try {
                 switch (input) {
                     case "1":  createVendingMachine(); break;
-                    //todo remove vm-> foodQuantity decrement, slot remove from repo, vm repo
-                    case "2":  addSlotToVendingMachine(); break;
-                    //todo remove slot->repo, vmSlotList, foodDecrement
-                    case "3":  registerFood(); break;
-                    //todo remove food type->food repo, slotList
-                    case "4":  addNewFoodTypeToSlot(); break;
-                    //todo remove food type from Slot-> slotList
-                    case "5":  refillFoodInSlot(); break;
-                    case "6":  editFoodDescription(); break;
-                    case "7":  editFoodName(); break;
-                    case "8":  editFoodPrice(); break;
-                    case "9":  editFoodBrand(); break;
-                    case "10": editFoodWarning(); break;
-                    case "11": viewAllVendingMachines(); break;
-                    case "12": viewAllFoods(); break;
-                    case "13": viewProductCount(); break;
-                    case "14": viewCashDrawer(); break;
-                    case "15": addCashToDrawer(); break;
-                    case "16": viewPurchaseHistory(); break;
+                    case "2": removeVendingMachine(); break;
+                    case "3":  addSlotToVendingMachine(); break;
+                    case "4": removeSlot(); break;
+                    case "5":  registerFood(); break;
+                    case "6": removeFood(); break;
+                    case "7":  addNewFoodTypeToSlot(); break;
+                    case "8":  refillFoodInSlot(); break;
+                    case "9":  editFoodDescription(); break;
+                    case "10":  editFoodName(); break;
+                    case "11":  editFoodPrice(); break;
+                    case "12":  editFoodBrand(); break;
+                    case "13": editFoodWarning(); break;
+                    case "14": viewAllVendingMachines(); break;
+                    case "15": viewAllFoods(); break;
+                    case "16": viewProductCount(); break;
+                    case "17": viewCashDrawer(); break;
+                    case "18": addCashToDrawer(); break;
+                    case "19": viewPurchaseHistory(); break;
                     case "0":  running = false; break;
                     default:   System.out.println("Invalid choice. Please try again.");
                 }
@@ -92,6 +94,14 @@ public class AdminUI {
         System.out.println(vm);
     }
 
+    private void removeVendingMachine() {
+        System.out.println("\n--- Remove Vending Machine ---");
+        System.out.print("Vending machine ID to remove: ");
+        String vmId = scanner.nextLine().trim();
+        adminController.removeVendingMachine(vmId);
+        System.out.println("Vending machine " + vmId + " and all its slots have been removed.");
+    }
+
     private void addSlotToVendingMachine() {
         System.out.println("\n--- Add Slot to Vending Machine ---");
 
@@ -104,6 +114,13 @@ public class AdminUI {
 
         System.out.println("\nSlot added successfully!");
         System.out.println(slot);
+    }
+    private void removeSlot() {
+        System.out.println("\n--- Remove Slot ---");
+        System.out.print("Slot ID to remove: ");
+        String slotId = scanner.nextLine().trim();
+        adminController.removeSlot(slotId);
+        System.out.println("Slot " + slotId + " removed. Food quantities in it have been deducted.");
     }
 
     private void registerFood() {
@@ -143,6 +160,14 @@ public class AdminUI {
 
         System.out.println("\nFood registered successfully!");
         System.out.println(food);
+    }
+
+    private void removeFood() {
+        System.out.println("\n--- Remove Food Item ---");
+        System.out.print("Food ID to remove: ");
+        String foodId = scanner.nextLine().trim();
+        adminController.removeFood(foodId);
+        System.out.println("Food " + foodId + " removed from registry and from all slots.");
     }
 
     private void addNewFoodTypeToSlot() {

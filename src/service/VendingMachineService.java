@@ -125,6 +125,20 @@ public class VendingMachineService {
         return vm;
     }
 
+    public void removeVendingMachine(String vendingMachineId) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
+        VendingMachine vm = getVendingMachineById(vendingMachineId);
+
+        List<Slot> slotsToRemove = new ArrayList<>(slotRepository.findByVendingMachineId(vendingMachineId));
+        for (Slot slot : slotsToRemove) {
+            slotRepository.removeById(slot.getSlotId());
+        }
+
+        vmRepository.removeById(vendingMachineId);
+    }
+
     public List<VendingMachine> getAllVendingMachines() {
         return vmRepository.findAll();
     }

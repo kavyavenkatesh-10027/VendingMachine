@@ -1,11 +1,8 @@
 package service;
 
-import model.Food;
-import repository.FoodRepository;
-import util.FoodType;
-import util.Location;
-import util.VegNonVeg;
-import util.VendingMachineException;
+import model.*;
+import repository.*;
+import util.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ public class FoodService {
 
     private static FoodService instance;
     private final FoodRepository foodRepository = FoodRepository.getInstance();
+    private final SlotRepository slotRepository = SlotRepository.getInstance();
 
     private FoodService() {}
 
@@ -87,5 +85,21 @@ public class FoodService {
     public void editWarning(String foodId, String newWarning) {
         // warning is optional, so null is allowed here
         getFoodById(foodId).setWarning(newWarning);
+    }
+
+    public void removeFood(String foodId) {
+        if (foodId == null || foodId.trim().isEmpty()) {
+            throw new VendingMachineException("Food ID cannot be null or empty.");
+        }
+        getFoodById(foodId); //for verification
+
+        List<Slot> allSlots = slotRepository.findAll();
+        for (Slot slot : allSlots) {
+            if (slot.getFoodItemsInSlot().containsKey(foodId)) {
+                slot.removeFoodTypeFromSlot(foodId);
+            }
+        }
+
+        foodRepository.removeById(foodId);
     }
 }
