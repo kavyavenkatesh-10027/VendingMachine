@@ -1,5 +1,6 @@
 package repository;
 
+import model.Food;
 import model.Slot;
 import util.VendingMachineException;
 
@@ -72,6 +73,11 @@ public class SlotRepository {
     }
 
     public boolean existsById(String slotId) {
-        return findById(slotId) != null;
+        for(Slot slot: slots){
+            if (slot.getSlotId().equals(slotId)){
+                return true;
+            }
+        }
+        return false;
     }
 }

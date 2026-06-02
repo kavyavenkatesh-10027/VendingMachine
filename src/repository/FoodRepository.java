@@ -48,7 +48,7 @@ public class FoodRepository {
         }
     }
 
-    public boolean existsById(String productId) {
+    public boolean existsById(String productId) {// Inverted here because it's more human readable in my opinion
         for(Food food: foods){
             if (food.getProductId().equals(productId)){
                 return true;
