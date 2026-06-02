@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import java.util.EnumMap;
-
 public class AdminUI {
 //Used Ai for clean output
     private final Scanner scanner;
@@ -53,9 +51,13 @@ public class AdminUI {
             try {
                 switch (input) {
                     case "1":  createVendingMachine(); break;
+                    //todo remove vm-> foodQuantity decrement, slot remove from repo, vm repo
                     case "2":  addSlotToVendingMachine(); break;
+                    //todo remove slot->repo, vmSlotList, foodDecrement
                     case "3":  registerFood(); break;
+                    //todo remove food type->food repo, slotList
                     case "4":  addNewFoodTypeToSlot(); break;
+                    //todo remove food type from Slot-> slotList
                     case "5":  refillFoodInSlot(); break;
                     case "6":  editFoodDescription(); break;
                     case "7":  editFoodName(); break;
@@ -376,9 +378,13 @@ public class AdminUI {
         while (true) {
             System.out.print(prompt);
             try {
-                return new BigDecimal(scanner.nextLine().trim());
+                BigDecimal value = new BigDecimal(scanner.nextLine().trim());
+                if (value.compareTo(BigDecimal.ZERO) <= 0) {
+                    System.out.println("Please enter a number greater than zero.");
+                }
+                return value;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Please try again.");
+                System.out.println("Invalid number. Please enter a number greater than zero.");
             }
         }
     }
@@ -387,10 +393,11 @@ public class AdminUI {
         while (true) {
             System.out.print(prompt);
             try {
-                int readInt = Integer.parseInt(scanner.nextLine().trim());
-                if(readInt>0) {
-                    return Integer.parseInt(scanner.nextLine().trim());
+                int value = Integer.parseInt(scanner.nextLine().trim());
+                if (value > 0) {
+                    return value;
                 }
+                System.out.println("Please enter a number greater than zero.");
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number. Please enter a whole number greater than zero.");
             }

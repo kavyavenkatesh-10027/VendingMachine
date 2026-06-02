@@ -11,6 +11,7 @@ public class SlotRepository {
 
     private static SlotRepository instance;
     private final List<Slot> slots = new ArrayList<>();
+    private static long maxItems = 10;
 
     private SlotRepository() {}
 
@@ -19,6 +20,18 @@ public class SlotRepository {
             instance = new SlotRepository();
         }
         return instance;
+    }
+
+    public static long getMaxItems() {
+        return maxItems;
+    }
+
+    public static void setMaxItems(long maxItems) {
+        SlotRepository.maxItems = maxItems;
+    }
+
+    public boolean hasVacancy(String slotId){
+        return findById(slotId).getFoodItemsInSlot().size()<maxItems;
     }
 
     public void add(Slot slot) {
