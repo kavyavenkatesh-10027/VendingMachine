@@ -41,13 +41,11 @@ public class VendingMachineRepository {
         return Collections.unmodifiableList(vendingMachines);
     }
 
-    public boolean removeById(String vendingMachineId) {
+    public void removeById(String vendingMachineId) {
         VendingMachine vendingMachineToRemove = findById(vendingMachineId);
         if (vendingMachineToRemove != null) {
             vendingMachines.remove(vendingMachineToRemove);
-            return true;
         }
-        return false;
     }
 
     public boolean existsById(String vendingMachineId) {

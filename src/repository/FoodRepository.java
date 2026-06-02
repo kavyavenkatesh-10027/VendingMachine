@@ -41,13 +41,11 @@ public class FoodRepository {
         return Collections.unmodifiableList(foods);
     }
 
-    public boolean removeById(String productId) {
+    public void removeById(String productId) {
         Food foodToRemove = findById(productId);
         if(foodToRemove!=null){
             foods.remove(foodToRemove);
-            return true;
         }
-        return false;
     }
 
     public boolean existsById(String productId) {
