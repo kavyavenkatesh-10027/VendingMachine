@@ -1,14 +1,8 @@
 package service;
 
-import model.Food;
-import model.Purchase;
-import model.Slot;
-import model.VendingMachine;
-import repository.FoodRepository;
-import repository.PurchaseRepository;
-import repository.VendingMachineRepository;
-import util.IndianCurrency;
-import util.VendingMachineException;
+import model.*;
+import repository.*;
+import util.*;
 
 import java.math.BigDecimal;
 import java.util.List;
