@@ -19,7 +19,6 @@ public class PurchaseService {
     private static PurchaseService instance;
 
     private final FoodRepository foodRepository = FoodRepository.getInstance();
-    private final VendingMachineRepository vmRepository = VendingMachineRepository.getInstance();
     private final PurchaseRepository purchaseRepository = PurchaseRepository.getInstance();
     private final CurrencyService currencyService = CurrencyService.getInstance();
 
@@ -33,25 +32,9 @@ public class PurchaseService {
     }
 
 
-    public Purchase processPurchase(String vendingMachineId,
+    public Purchase processPurchase(VendingMachine vm,
                                     Map<String, Integer> cart,
                                     Map<IndianCurrency, Integer> inserted) {
-
-        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
-            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
-        }
-        if (cart == null || cart.isEmpty()) {
-            throw new VendingMachineException("Cart cannot be empty. Please select at least one item.");
-        }
-        if (inserted == null || inserted.isEmpty()) {
-            throw new VendingMachineException("No money inserted. Please insert payment.");
-        }
-
-        VendingMachine vm = vmRepository.findById(vendingMachineId);
-        if (vm == null) {
-            throw new VendingMachineException("No vending machine found with ID: " + vendingMachineId);
-        }
-
 
         for (Map.Entry<String, Integer> entry : cart.entrySet()) {
             String foodId = entry.getKey();
@@ -61,8 +44,7 @@ public class PurchaseService {
                 throw new VendingMachineException("Food ID in cart cannot be null or empty.");
             }
             if (requestedQty <= 0) {
-                throw new VendingMachineException(
-                        "Quantity for food " + foodId + " must be greater than zero.");
+                throw new VendingMachineException("Quantity for food " + foodId + " must be greater than zero.");
             }
 
             Food food = foodRepository.findById(foodId);
@@ -91,7 +73,7 @@ public class PurchaseService {
 
 
         BigDecimal changeAmount = amountPaid.subtract(total);
-        Map<IndianCurrency, Integer> change;
+        Map<IndianCurrency, Integer> change;//Having this variable for future use-case if we need to show the consumer the exact denominations
 
         try {
             change = currencyService.makeChange(vm.getDrawer(), changeAmount);

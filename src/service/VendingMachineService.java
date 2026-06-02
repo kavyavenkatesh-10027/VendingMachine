@@ -33,23 +33,12 @@ public class VendingMachineService {
     public VendingMachine createVendingMachine(Location location,
                                                LocalDate establishedOn,
                                                Map<String, Integer> firstSlotFoodItems) {
-        if (location == null) {
-            throw new VendingMachineException("Location cannot be null.");
-        }
-        if (establishedOn == null) {
-            throw new VendingMachineException("Established date cannot be null.");
-        }
+
         if (establishedOn.isAfter(LocalDate.now())) {
             throw new VendingMachineException("Established date cannot be in the future.");
         }
-        if (firstSlotFoodItems == null || firstSlotFoodItems.isEmpty()) {
-            throw new VendingMachineException(
-                    "Cannot create a vending machine without a first slot. Provide at least one food item.");
-        }
 
         String incomingVmId = Generator.peekNextVendingMachineId();
-
-
 
         List<Slot> slots = new ArrayList<>();
         VendingMachine vm = new VendingMachine(location, establishedOn, slots);
@@ -63,13 +52,6 @@ public class VendingMachineService {
     }
 
     public Slot addSlotToVendingMachine(String vendingMachineId, Map<String, Integer> foodItems) {
-        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
-            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
-        }
-        if (foodItems == null || foodItems.isEmpty()) {
-            throw new VendingMachineException(
-                    "Cannot add an empty slot. Provide at least one food item.");
-        }
 
         // Build the slot, id is passed by us to avoid inconsistency.
         VendingMachine vm = getVendingMachineById(vendingMachineId);
@@ -87,14 +69,41 @@ public class VendingMachineService {
     }
 
     private Slot buildSlotForExistingMachine(String vendingMachineId, Map<String, Integer> foodItems) {
-        if (!vmRepository.existsById(vendingMachineId)) {
-            throw new VendingMachineException(
-                    "Cannot build slot, vending machine does not exist: " + vendingMachineId);
-        }
         validateFoodItems(foodItems);
         return new Slot(vendingMachineId, foodItems);
     }
 
+    public VendingMachine getVendingMachineById(String vendingMachineId) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
+
+        VendingMachine vm = vmRepository.findById(vendingMachineId);
+        if (vm == null) {
+            throw new VendingMachineException(
+                    "No vending machine found with ID: " + vendingMachineId);
+        }
+        return vm;
+    }
+
+    public void removeVendingMachine(String vendingMachineId) {
+        if (!vmRepository.existsById(vendingMachineId)) {
+            throw new VendingMachineException("Vending machine with ID " + vendingMachineId + " does not exist");
+        }
+
+        List<Slot> slotsToRemove = new ArrayList<>(slotRepository.findByVendingMachineId(vendingMachineId));
+        for (Slot slot : slotsToRemove) {
+            slotRepository.removeById(slot.getSlotId());
+        }
+
+        vmRepository.removeById(vendingMachineId);
+    }
+
+    public List<VendingMachine> getAllVendingMachines() {
+        return vmRepository.findAll();
+    }
+
+    //This had multiple usages, because of which a separate method has been created.
     private void validateFoodItems(Map<String, Integer> foodItems) {
         if (foodItems == null || foodItems.isEmpty()) {
             throw new VendingMachineException("A slot must contain at least one food item.");
@@ -113,33 +122,4 @@ public class VendingMachineService {
         }
     }
 
-    public VendingMachine getVendingMachineById(String vendingMachineId) {
-        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
-            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
-        }
-        VendingMachine vm = vmRepository.findById(vendingMachineId);
-        if (vm == null) {
-            throw new VendingMachineException(
-                    "No vending machine found with ID: " + vendingMachineId);
-        }
-        return vm;
-    }
-
-    public void removeVendingMachine(String vendingMachineId) {
-        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
-            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
-        }
-        VendingMachine vm = getVendingMachineById(vendingMachineId);
-
-        List<Slot> slotsToRemove = new ArrayList<>(slotRepository.findByVendingMachineId(vendingMachineId));
-        for (Slot slot : slotsToRemove) {
-            slotRepository.removeById(slot.getSlotId());
-        }
-
-        vmRepository.removeById(vendingMachineId);
-    }
-
-    public List<VendingMachine> getAllVendingMachines() {
-        return vmRepository.findAll();
-    }
 }

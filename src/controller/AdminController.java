@@ -26,12 +26,8 @@ public class AdminController extends BaseController{
         if (establishedOn == null) {
             throw new VendingMachineException("Established date cannot be null.");
         }
-        if (establishedOn.isAfter(LocalDate.now())) {
-            throw new VendingMachineException("Established date cannot be in the future.");
-        }
         if (firstSlotFoodItems == null || firstSlotFoodItems.isEmpty()) {
-            throw new VendingMachineException(
-                    "First slot must have at least one food item.");
+            throw new VendingMachineException("First slot must have at least one food item.");
         }
 
         return vendingMachineService.createVendingMachine(location, establishedOn, firstSlotFoodItems);
@@ -220,17 +216,26 @@ public class AdminController extends BaseController{
             }
         }
         VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
+
         for (Map.Entry<IndianCurrency, Integer> entry : denominations.entrySet()) {
             currencyService.addToDrawer(vm.getDrawer(), entry.getKey(), entry.getValue());
         }
     }
 
     public Map<IndianCurrency, Integer> getDenominationBreakdown(String vendingMachineId) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
+
         VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
         return vm.getDrawer().getDenominations();
     }
 
     public int getTotalCashInMachine(String vendingMachineId) {
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
+            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
+        }
+
         VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
         return vm.getDrawer().totalCash();
     }

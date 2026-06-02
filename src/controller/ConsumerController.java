@@ -24,7 +24,12 @@ public class ConsumerController extends BaseController {
             throw new VendingMachineException("No money inserted. Please insert payment.");
         }
 
-        return purchaseService.processPurchase(vendingMachineId, cart, inserted);
+        VendingMachine vm = vmRepository.findById(vendingMachineId);
+        if (vm == null) {
+            throw new VendingMachineException("No vending machine found with ID: " + vendingMachineId);
+        }
+
+        return purchaseService.processPurchase(vm, cart, inserted);
     }
 
     public BigDecimal getCartTotal(Map<String, Integer> cart) {

@@ -52,33 +52,18 @@ public class FoodService {
     }
 
     public void editDescription(String foodId, String newDescription) {
-        if (newDescription == null || newDescription.trim().isEmpty()) {
-            throw new VendingMachineException("New description cannot be null or empty.");
-        }
-
         getFoodById(foodId).setDescription(newDescription);
     }
 
     public void editName(String foodId, String newName) {
-        if (newName == null || newName.trim().isEmpty()) {
-            throw new VendingMachineException("New name cannot be null or empty.");
-        }
-
         getFoodById(foodId).setProductName(newName);
     }
 
     public void editBrand(String foodId, String newBrand) {
-        if (newBrand == null || newBrand.trim().isEmpty()) {
-            throw new VendingMachineException("New brand cannot be null or empty.");
-        }
-
         getFoodById(foodId).setBrand(newBrand);
     }
 
     public void editPrice(String foodId, BigDecimal newPrice) {
-        if (newPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new VendingMachineException("Price cannot be negative.");
-        }
         getFoodById(foodId).setPrice(newPrice);
     }
 
@@ -88,10 +73,7 @@ public class FoodService {
     }
 
     public void removeFood(String foodId) {
-        if (foodId == null || foodId.trim().isEmpty()) {
-            throw new VendingMachineException("Food ID cannot be null or empty.");
-        }
-        getFoodById(foodId); //for verification
+        getFoodById(foodId); //for verification and preventing program crash
 
         List<Slot> allSlots = slotRepository.findAll();
         for (Slot slot : allSlots) {

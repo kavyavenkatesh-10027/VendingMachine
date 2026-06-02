@@ -24,9 +24,6 @@ public class CurrencyService {
 
     public BigDecimal acceptPayment(Drawer drawer, Map<IndianCurrency, Integer> inserted) {
         validateDrawer(drawer);
-        if (inserted == null || inserted.isEmpty()) {
-            throw new VendingMachineException("No money inserted.");
-        }
 
         BigDecimal total = BigDecimal.ZERO;
 
@@ -49,6 +46,7 @@ public class CurrencyService {
 
     public Map<IndianCurrency, Integer> makeChange(Drawer drawer, BigDecimal changeAmount) {
         validateDrawer(drawer);
+        //Here validation is essential because this is called by another service layer and the variable passed as parameters are also created in that service layer only. Because of that reason, validation either must come here or in the other service file
         if (changeAmount == null) {
             throw new VendingMachineException("Change amount cannot be null.");
         }
@@ -94,6 +92,7 @@ public class CurrencyService {
 
     public void refund(Drawer drawer, Map<IndianCurrency, Integer> inserted) {
         validateDrawer(drawer);
+        //Here validation is essential because this is called by another service layer and the variable passed as parameters are also created in that service layer only. Because of that reason, validation either must come here or in the other service file
         if (inserted == null || inserted.isEmpty()) {
             return;
         }
@@ -113,7 +112,7 @@ public class CurrencyService {
     }
 
     // These functionalities seemed to be repetitive hence a separate method
-
+    // It's the task of the currency service to check the authenticity of the denominations entered. Therefore, these methods have been retained.
     private void validateDrawer(Drawer drawer) {
         if (drawer == null) {
             throw new VendingMachineException("Drawer cannot be null.");
