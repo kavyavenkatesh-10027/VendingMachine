@@ -3,6 +3,7 @@ package model;
 import util.Generator;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public class Slot {
     private final String slotId;
@@ -12,12 +13,13 @@ public class Slot {
 
     public Slot(String vendingMachineId, Map<String, Integer> foodItemsInSlot){
         this.slotId = Generator.generateSlotId();
-        this.vendingMachineId = vendingMachineId; //here will have to check if it exists, would need repository to be done later
+        if (vendingMachineId == null || vendingMachineId.trim().isEmpty())
+            throw new IllegalArgumentException("Vending machine ID cannot be null or empty.");
 
         if (foodItemsInSlot == null || foodItemsInSlot.isEmpty()){
             throw new IllegalArgumentException("Slot shouldn't be added without adding items");
         }
-
+        this.vendingMachineId = vendingMachineId; //here will have to check if it exists, would need repository to be done later
         this.foodItemsInSlot = foodItemsInSlot;
     }
 
@@ -63,6 +65,20 @@ public class Slot {
         foodItemsInSlot.remove(theIdOfFoodToRemove);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Slot slot = (Slot) o;
+        return Objects.equals(getSlotId(), slot.getSlotId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSlotId());
+    }
     @Override
     public String toString() {
         return "Slot ID : " + slotId + "\n" +

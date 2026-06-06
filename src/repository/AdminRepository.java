@@ -3,53 +3,60 @@ package repository;
 import model.Admin;
 import util.VendingMachineException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class AdminRepository {
+public class AdminRepository extends BaseRepository<Admin> {
 
     private static AdminRepository instance;
-    private final List<Admin> admins = new ArrayList<>();
 
     private AdminRepository() {}
 
     public static AdminRepository getInstance() {
-        if (instance == null) {
-            instance = new AdminRepository();
-        }
+        if (instance == null) instance = new AdminRepository();
         return instance;
     }
 
-    public void add(Admin admin) {
-        if (admin == null){
-            throw new VendingMachineException("Admin cannot be null.");
-        }
-        admins.add(admin);
-    }
-
-    public Admin findById(String adminId) {
-        if (adminId==null){
-            throw new VendingMachineException("Admin ID cannot be null");
-        }
-        for(Admin admin: admins){
-            if(admin.getAdminId().equals(adminId)){
-                return admin;
-            }
-        }
-        return null;
-    }
-
-    public List<Admin> findAll() {
-        return Collections.unmodifiableList(admins);
-    }
-
-    public boolean removeById(String adminId) {
-        Admin adminToRemove = findById(adminId);
-        if(adminToRemove!=null){
-            admins.remove(adminToRemove);
-            return true;
-        }
-        return false;
+    @Override
+    protected String getId(Admin admin) {
+        return admin.getAdminId();
     }
 }
+//import model.Admin;
+//import util.VendingMachineException;
+//
+//import java.util.*;
+//
+//public class AdminRepository {
+//
+//    private static AdminRepository instance;
+//    private final Map<String, Admin> admins = new HashMap<>();
+//
+//    private AdminRepository() {}
+//
+//    public static AdminRepository getInstance() {
+//        if (instance == null) {
+//            instance = new AdminRepository();
+//        }
+//        return instance;
+//    }
+//
+//    public void add(Admin admin) {
+//        if (admin == null) {
+//            throw new VendingMachineException("Admin cannot be null.");
+//        }
+//        admins.put(admin.getAdminId(), admin);
+//    }
+//
+//    public Admin findById(String adminId) {
+//        if (adminId == null) {
+//            throw new VendingMachineException("Admin ID cannot be null");
+//        }
+//        return admins.get(adminId);
+//    }
+//
+//    public List<Admin> findAll() {
+//        return Collections.unmodifiableList(new ArrayList<>(admins.values()));
+//    }
+//
+//    public boolean removeById(String adminId) {
+//        return admins.remove(adminId) != null;
+//    }
+//}

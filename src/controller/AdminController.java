@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AdminController extends BaseController{
 
@@ -80,9 +81,6 @@ public class AdminController extends BaseController{
         if (expiryDate == null) {
             throw new VendingMachineException("Expiry date cannot be null.");
         }
-        if (expiryDate.isBefore(LocalDate.now())) {
-            throw new VendingMachineException("Cannot register an already-expired food item.");
-        }
         if (foodType == null) {
             throw new VendingMachineException("Food type cannot be null.");
         }
@@ -142,6 +140,9 @@ public class AdminController extends BaseController{
         if (foodId == null || foodId.trim().isEmpty()) {
             throw new VendingMachineException("Food ID cannot be null or empty.");
         }
+        if (newPrice==null){
+            throw new VendingMachineException("Price cannot be null");
+        }
         if (newPrice.compareTo(BigDecimal.ZERO) <= 0) {
             throw new VendingMachineException("Price cannot be zero or negative.");
         }
@@ -166,7 +167,7 @@ public class AdminController extends BaseController{
         foodService.editWarning(foodId, newWarning);
     }
 
-    public List<VendingMachine> getAllVendingMachines() {
+    public Set<VendingMachine> getAllVendingMachines() {
         return vendingMachineService.getAllVendingMachines();
     }
 
@@ -191,11 +192,18 @@ public class AdminController extends BaseController{
         foodService.removeFood(foodId);
     }
 
-    public List<Food> getAllFoods() {
+    public Set<Food> getAllFoods() {
         return foodService.getAllFoods();
     }
 
-    public Map<Food, Integer> getProductCountForMachine(String vendingMachineId) {
+    public Food getFoodById(String foodId){
+        if(foodId==null || foodId.trim().isEmpty()){
+            throw new VendingMachineException("Product ID cannot be null or empty");
+        }
+        return foodService.getFoodById(foodId);
+    }
+
+    public Map<String, Integer> getProductCountForMachine(String vendingMachineId) {
         if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
             throw new VendingMachineException("Vending machine ID cannot be null or empty.");
         }
@@ -231,7 +239,7 @@ public class AdminController extends BaseController{
         return vm.getDrawer().getDenominations();
     }
 
-    public int getTotalCashInMachine(String vendingMachineId) {
+    public BigDecimal getTotalCashInMachine(String vendingMachineId) {
         if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
             throw new VendingMachineException("Vending machine ID cannot be null or empty.");
         }
@@ -240,7 +248,7 @@ public class AdminController extends BaseController{
         return vm.getDrawer().totalCash();
     }
 
-    public List<Purchase> getAllPurchases() {
+    public Set<Purchase> getAllPurchases() {
         return purchaseService.getAllPurchases();
     }
 }

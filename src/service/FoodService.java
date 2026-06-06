@@ -7,12 +7,14 @@ import util.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class FoodService {
 
     private static FoodService instance;
     private final FoodRepository foodRepository = FoodRepository.getInstance();
     private final SlotRepository slotRepository = SlotRepository.getInstance();
+    private final SlotService slotService = SlotService.getInstance();
 
     private FoodService() {}
 
@@ -28,26 +30,22 @@ public class FoodService {
                              String warning, BigDecimal price, Location manufacturingLocation,
                              LocalDate manufacturingDate, VegNonVeg vegOrNonVeg,
                              List<String> ingredients, LocalDate expiryDate, FoodType foodType) {
-
-        Food food = new Food(productName, brand, description, warning, price,
+        //Input validation is done inside model class during direct creation
+        if (expiryDate.isBefore(LocalDate.now())) {
+            throw new VendingMachineException("Cannot register an already-expired food item.");
+        }
+        Food food = new Food.Builder(productName, brand, description, price,
                 manufacturingLocation, manufacturingDate, vegOrNonVeg,
-                ingredients, expiryDate, foodType);
-        foodRepository.addFood(food);
+                ingredients, expiryDate, foodType).warning(warning).build();
+        foodRepository.add(food);
         return food;
     }
 
     public Food getFoodById(String foodId) {
-        if (foodId == null || foodId.trim().isEmpty()) {
-            throw new VendingMachineException("Food ID cannot be null or empty.");
-        }
-        Food food = foodRepository.findById(foodId);
-        if (food == null) {
-            throw new VendingMachineException("No food found with ID: " + foodId);
-        }
-        return food;
+        return foodRepository.findById(foodId);
     }
 
-    public List<Food> getAllFoods() {
+    public Set<Food> getAllFoods() {
         return foodRepository.findAll();
     }
 
@@ -74,14 +72,7 @@ public class FoodService {
 
     public void removeFood(String foodId) {
         getFoodById(foodId); //for verification and preventing program crash
-
-        List<Slot> allSlots = slotRepository.findAll();
-        for (Slot slot : allSlots) {
-            if (slot.getFoodItemsInSlot().containsKey(foodId)) {
-                slot.removeFoodTypeFromSlot(foodId);
-            }
-        }
-
+        slotService.removeFoodTypeFromSlot(foodId);
         foodRepository.removeById(foodId);
     }
 }

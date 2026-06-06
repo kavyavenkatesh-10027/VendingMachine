@@ -84,6 +84,9 @@ public class CurrencyService {
         }
 
         for (Map.Entry<IndianCurrency, Integer> entry : change.entrySet()) {
+            if (drawer.getCount(entry.getKey()) < entry.getValue()){
+                throw new VendingMachineException("Insufficient amount of denomination in machine.");
+            }
             drawer.deduct(entry.getKey(), entry.getValue());
         }
 
@@ -99,6 +102,12 @@ public class CurrencyService {
 
         for (Map.Entry<IndianCurrency, Integer> entry : inserted.entrySet()) {
             validateDenomination(entry.getKey());
+            if (drawer.getCount(entry.getKey()) < entry.getValue()){
+                throw new VendingMachineException("Insufficient amount of denomination in machine.");
+            }
+            /*Here count validation is not necessary because whatever has been inserted is being returned so it will
+            at least as many denomination*/
+            //Still for prevention checking is being done here
             drawer.deduct(entry.getKey(), entry.getValue());
         }
     }
@@ -126,8 +135,8 @@ public class CurrencyService {
     }
 
     private void validateCount(int count) {
-        if (count < 0) {
-            throw new VendingMachineException("Count cannot be negative.");
+        if (count <= 0) {
+            throw new VendingMachineException("Count cannot be zero or negative.");
         }
     }
 }

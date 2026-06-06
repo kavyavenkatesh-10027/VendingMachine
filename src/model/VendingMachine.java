@@ -8,6 +8,7 @@ import util.VendingMachineException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class VendingMachine {
     private final String vendingMachineId;
@@ -69,6 +70,22 @@ public class VendingMachine {
 
     public void removeSlotFromVendingMachine(Slot slotToRemove){
         slotsInVendingMachine.remove(slotToRemove);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VendingMachine vendingMachine = (VendingMachine) o;
+
+        return Objects.equals(getVendingMachineId(), vendingMachine.getVendingMachineId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVendingMachineId());
     }
 
     @Override

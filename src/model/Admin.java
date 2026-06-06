@@ -1,9 +1,11 @@
 package model;
 
+import ui.AdminUI;
 import util.Gender;
 import util.Generator;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Admin extends User{
     private final String adminId;
@@ -15,6 +17,21 @@ public class Admin extends User{
 
     public String getAdminId() {
         return adminId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Admin admin = (Admin) o;
+        return Objects.equals(getAdminId(), admin.getAdminId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAdminId());
     }
 
     @Override

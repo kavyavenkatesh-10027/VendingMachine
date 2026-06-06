@@ -24,10 +24,7 @@ public class ConsumerController extends BaseController {
             throw new VendingMachineException("No money inserted. Please insert payment.");
         }
 
-        VendingMachine vm = vmRepository.findById(vendingMachineId);
-        if (vm == null) {
-            throw new VendingMachineException("No vending machine found with ID: " + vendingMachineId);
-        }
+        VendingMachine vm = vendingMachineService.getVendingMachineById(vendingMachineId);
 
         return purchaseService.processPurchase(vm, cart, inserted);
     }
@@ -36,16 +33,11 @@ public class ConsumerController extends BaseController {
         if (cart == null || cart.isEmpty()) {
             throw new VendingMachineException("Cart is empty.");
         }
-        return purchaseService.calculateTotal(cart);
+        return purchaseService.getCartTotal(cart);
     }
 
     public int getAvailableStock(String vendingMachineId, String foodId) {
-        if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
-            throw new VendingMachineException("Vending machine ID cannot be null or empty.");
-        }
-        if (foodId == null || foodId.trim().isEmpty()) {
-            throw new VendingMachineException("Food ID cannot be null or empty.");
-        }
+
         return getAvailableQuantityForOneProduct(vendingMachineId, foodId);
     }
 }

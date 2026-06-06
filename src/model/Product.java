@@ -5,120 +5,127 @@ import util.Location;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Product {
     private final String productId;
     private String productName;
     private String brand;
     private String description;
-    private String warning;
+    private String warning;          // optional — no validation needed
     private BigDecimal price;
     private final Location manufacturingLocation;
     private final LocalDate manufacturingDate;
 
-    public Product(String productName, String brand, String description, String warning, BigDecimal price, Location manufacturingLocation, LocalDate manufacturingDate){
+    protected Product(Builder<?> builder) {
         this.productId = Generator.generateProductId();
-
-        if (productName == null || productName.trim().isEmpty()){
-            throw new IllegalArgumentException("Product must have a name");
-        }
-
-        if (brand == null || brand.trim().isEmpty()){
-            throw new IllegalArgumentException("Product must have a brand");
-        }
-
-        if (description == null || description.trim().isEmpty()){
-            throw new IllegalArgumentException("Product must have a description");
-        }
-
-        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Price of product cannot be null, zero or negative");
-        }
-
-        if (manufacturingLocation == null){
-            throw new IllegalArgumentException("Product must have a manufacturing location");
-        }
-
-        if (manufacturingDate == null || manufacturingDate.isAfter(LocalDate.now())){
-            throw new IllegalArgumentException("Manufacturing date must always be before the current date");
-        }
-
-        this.productName = productName;
-        this.brand = brand;
-        this.description = description;
-        this.warning = warning;
-        this.price = price;
-        this.manufacturingLocation = manufacturingLocation;
-        this.manufacturingDate = manufacturingDate;
+        this.productName = builder.productName;
+        this.brand = builder.brand;
+        this.description = builder.description;
+        this.warning = builder.warning;
+        this.price = builder.price;
+        this.manufacturingLocation = builder.manufacturingLocation;
+        this.manufacturingDate = builder.manufacturingDate;
     }
 
-    public String getProductId() {
-        return productId;
+    public static class Builder<T extends Builder<T>> {
+        private final String productName;
+        private final String brand;
+        private final String description;
+        private final BigDecimal price;
+        private final Location manufacturingLocation;
+        private final LocalDate manufacturingDate;
+
+        private String warning;
+
+        public Builder(String productName, String brand, String description,
+                       BigDecimal price, Location manufacturingLocation,
+                       LocalDate manufacturingDate) {
+
+            if (productName == null || productName.trim().isEmpty())
+                throw new IllegalArgumentException("Product must have a name");
+            if (brand == null || brand.trim().isEmpty())
+                throw new IllegalArgumentException("Product must have a brand");
+            if (description == null || description.trim().isEmpty())
+                throw new IllegalArgumentException("Product must have a description");
+            if (price == null || price.compareTo(BigDecimal.ZERO) <= 0)
+                throw new IllegalArgumentException("Price of product cannot be null, zero or negative");
+            if (manufacturingLocation == null)
+                throw new IllegalArgumentException("Product must have a manufacturing location");
+            if (manufacturingDate == null || manufacturingDate.isAfter(LocalDate.now()))
+                throw new IllegalArgumentException("Manufacturing date must always be before the current date");
+
+            this.productName = productName;
+            this.brand = brand;
+            this.description = description;
+            this.price = price;
+            this.manufacturingLocation = manufacturingLocation;
+            this.manufacturingDate = manufacturingDate;
+        }
+
+        public T warning(String warning) {
+            this.warning = warning;
+            return (T) this;//Unchecked because null is acceptable here.
+        }
+
+        public Product build() {
+            return new Product(this);
+        }
     }
 
-    public String getProductName() {
-        return productName;
-    }
+    public String getProductId() { return productId; }
+
+    public String getProductName() { return productName; }
 
     public void setProductName(String productName) {
-        if (productName == null || productName.trim().isEmpty()){
+        if (productName == null || productName.trim().isEmpty())
             throw new IllegalArgumentException("Product must have a name");
-        }
-
         this.productName = productName;
     }
 
-    public String getBrand() {
-        return brand;
-    }
+    public String getBrand() { return brand; }
 
     public void setBrand(String brand) {
-        if (brand == null || brand.trim().isEmpty()){
+        if (brand == null || brand.trim().isEmpty())
             throw new IllegalArgumentException("Product must have a brand");
-        }
-
         this.brand = brand;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
     public void setDescription(String description) {
-        if (description == null || description.trim().isEmpty()){
+        if (description == null || description.trim().isEmpty())
             throw new IllegalArgumentException("Product must have a description");
-        }
-
         this.description = description;
     }
 
-    public String getWarning() {
-        return warning;
-    }
+    public String getWarning() { return warning; }
 
-    public void setWarning(String warning) {
-        this.warning = warning;
-    }
+    public void setWarning(String warning) { this.warning = warning; }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+    public BigDecimal getPrice() { return price; }
 
     public void setPrice(BigDecimal price) {
-        if (price == null || price.compareTo(BigDecimal.ZERO) < 0){
-            throw new IllegalArgumentException("Price of product cannot be negative");
+        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Price of product cannot be zero or negative.");
         }
-
         this.price = price;
     }
 
-    public Location getManufacturingLocation() {
-        return manufacturingLocation;
+    public Location getManufacturingLocation() { return manufacturingLocation; }
+
+    public LocalDate getManufacturingDate() { return manufacturingDate; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(getProductId(), product.getProductId());
     }
 
-    public LocalDate getManufacturingDate() {
-        return manufacturingDate;
-    }
+    @Override
+    public int hashCode() { return Objects.hash(getProductId()); }
 
     @Override
     public String toString() {

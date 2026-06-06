@@ -5,13 +5,9 @@ import model.*;
 import util.*;
 
 import java.math.BigDecimal;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
-public class ConsumerUI {
+public class ConsumerUI implements Interactable{
     //Used Ai for clean output
     private final Scanner scanner;
     private final ConsumerController controller = new ConsumerController();
@@ -19,11 +15,14 @@ public class ConsumerUI {
     public ConsumerUI(Scanner scanner) {
         this.scanner = scanner;
     }
+//    This is not used for now, if the need arrives will uncomment like in AdminUI
 
     public void show() {
         boolean running = true;
         while (running) {
-            printHeader("CUSTOMER MENU");
+            System.out.println("\n" + "=====================================");
+            System.out.printf("  %s%n", "CUSTOMER MENU");
+            System.out.println("=====================================");
             System.out.println("  1. View all vending machines");
             System.out.println("  2. Browse products at a machine");
             System.out.println("  3. Buy products");
@@ -56,8 +55,10 @@ public class ConsumerUI {
     }
 
     private void viewAllMachines() {
-        List<VendingMachine> machines = controller.viewAllVendingMachines();
-        printHeader("VENDING MACHINES");
+        Set<VendingMachine> machines = controller.viewAllVendingMachines();
+        System.out.println("\n" + "=====================================");
+        System.out.printf("  %s%n", "VENDING MACHINES");
+        System.out.println("=====================================");
 
         if (machines.isEmpty()) {
             System.out.println("  No machines available yet.");
@@ -80,8 +81,10 @@ public class ConsumerUI {
     }
 
     private void printAvailableProducts(String vmId) {
-        List<Food> products = controller.viewAvailableProducts(vmId);
-        printHeader("AVAILABLE PRODUCTS");
+        Set<Food> products = controller.viewAvailableProducts(vmId);
+        System.out.println("\n" + "=====================================");
+        System.out.printf("  %s%n", "AVAILABLE PRODUCTS");
+        System.out.println("=====================================");
 
         if (products.isEmpty()) {
             System.out.println("  No products in stock at this machine.");
@@ -107,7 +110,7 @@ public class ConsumerUI {
     private void buyProducts() {
         String vmId = prompt("Vending machine ID");
 
-        List<Food> products = controller.viewAvailableProducts(vmId);
+        Set<Food> products = controller.viewAvailableProducts(vmId);
         if (products.isEmpty()) {
             System.out.println("\n  No products in stock at this machine.");
             return;
@@ -194,7 +197,7 @@ public class ConsumerUI {
                 System.out.println("  Payment cancelled.");
                 return new EnumMap<>(IndianCurrency.class);
             }
-
+//todo
             try {
                 IndianCurrency coin = IndianCurrency.valueOf(input);
                 payment.merge(coin, 1, Integer::sum);
@@ -226,28 +229,5 @@ public class ConsumerUI {
         }
         System.out.println("  Thank you for your purchase!");
         System.out.println("=====================================" + "\n");
-    }
-
-    //These methods seemed like utils for this particular class hence writing them here
-    private void printHeader(String title) {
-        System.out.println("\n" + "=====================================");
-        System.out.printf("  %s%n", title);
-        System.out.println("=====================================");
-    }
-
-    private String prompt(String label) {
-        System.out.print(label + ": ");
-        return scanner.nextLine().trim();
-    }
-
-    private int readInt(String label) {
-        while (true) {
-            System.out.print(label + ": ");
-            try {
-                return Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("  [!] Please enter a whole number.");
-            }
-        }
     }
 }

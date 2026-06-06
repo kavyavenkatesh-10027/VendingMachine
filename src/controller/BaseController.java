@@ -1,88 +1,48 @@
 package controller;
 
 import model.Food;
-import model.Slot;
 import model.VendingMachine;
-import repository.FoodRepository;
-import repository.SlotRepository;
-import repository.VendingMachineRepository;
+import service.VendingMachineService;
 import util.VendingMachineException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+//todo interface/abstract
+//todo naming
+//
+import java.util.*;
 
 public abstract class BaseController {
 
-    protected final VendingMachineRepository vmRepository = VendingMachineRepository.getInstance();
-    protected final FoodRepository foodRepository = FoodRepository.getInstance();
-    protected final SlotRepository slotRepository = SlotRepository.getInstance();
+    protected final VendingMachineService vendingMachineService = VendingMachineService.getInstance();
 
     public VendingMachine viewVendingMachine(String vendingMachineId) {
 
         if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
             throw new VendingMachineException("Vending machine ID cannot be null or empty.");
         }
-        VendingMachine vm = vmRepository.findById(vendingMachineId);
-        if (vm == null) {
-            throw new VendingMachineException("No vending machine found with ID: " + vendingMachineId);
-        }
-        return vm;
+
+        return vendingMachineService.getVendingMachineById(vendingMachineId);
     }
 
-    public List<VendingMachine> viewAllVendingMachines() {
-        return vmRepository.findAll();
+    public Set<VendingMachine> viewAllVendingMachines() {
+        return vendingMachineService.viewAllVendingMachines();
     }
 
-    public List<Food> viewAvailableProducts(String vendingMachineId) {
+    public Set<Food> viewAvailableProducts(String vendingMachineId) {
 
         if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
             throw new VendingMachineException("Vending machine ID cannot be null or empty.");
         }
 
-        VendingMachine vm = viewVendingMachine(vendingMachineId);
-        List<Food> available = new ArrayList<>();
-
-        for (Slot slot : vm.getSlotsInVendingMachine()) {
-            for (Map.Entry<String, Integer> entry : slot.getFoodItemsInSlot().entrySet()) {
-                if (entry.getValue() > 0) {
-                    Food food = foodRepository.findById(entry.getKey());
-                    if (food != null && !available.contains(food)) {
-                        available.add(food);
-                    }
-                }
-            }
-        }
-
-        return available;
+        return vendingMachineService.viewAvailableProducts(vendingMachineId);
     }
 
-    public Map<Food, Integer> viewAvailableQuantityForAllProducts(String vendingMachineId) {
+    public Map<String, Integer> viewAvailableQuantityForAllProducts(String vendingMachineId) {
 
         if (vendingMachineId == null || vendingMachineId.trim().isEmpty()) {
             throw new VendingMachineException("Vending machine ID cannot be null or empty.");
         }
 
-        VendingMachine vm = viewVendingMachine(vendingMachineId);
-        Map<Food, Integer> availableQuantity = new HashMap<>();
-
-        for (Slot slot : vm.getSlotsInVendingMachine()) {
-            for (Map.Entry<String, Integer> entry : slot.getFoodItemsInSlot().entrySet()) {
-                if (entry.getValue() > 0) {
-                    Food food = foodRepository.findById(entry.getKey());
-                    if (food != null){
-                        if(!availableQuantity.containsKey(food)) {
-                            availableQuantity.put(food, entry.getValue());
-                        }else {
-                            availableQuantity.put(food, availableQuantity.get(food)+entry.getValue());
-                        }
-                    }
-                }
-            }
-        }
-
-        return availableQuantity;
+        return vendingMachineService.viewAvailableQuantityForAllProducts(vendingMachineId);
     }
 
 
@@ -95,16 +55,6 @@ public abstract class BaseController {
             throw new VendingMachineException("Food ID cannot be null or empty.");
         }
 
-        VendingMachine vm = viewVendingMachine(vendingMachineId);
-        int total = 0;
-
-        for (Slot slot : vm.getSlotsInVendingMachine()) {
-            Integer qty = slot.getFoodItemsInSlot().get(foodId);
-            if (qty != null) {
-                total += qty;
-            }
-        }
-
-        return total;
+        return vendingMachineService.getAvailableQuantityForOneProduct(vendingMachineId, foodId);
     }
 }

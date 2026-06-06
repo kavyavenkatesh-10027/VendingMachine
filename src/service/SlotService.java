@@ -4,6 +4,8 @@ import model.*;
 import repository.*;
 import util.VendingMachineException;
 
+import java.util.Set;
+
 public class SlotService {
 
     private static SlotService instance;
@@ -21,14 +23,7 @@ public class SlotService {
     }
 
     public Slot getSlotById(String slotId) {
-        if (slotId == null || slotId.trim().isEmpty()) {
-            throw new VendingMachineException("Slot ID cannot be null or empty.");
-        }
-        Slot slot = slotRepository.findById(slotId);
-        if (slot == null) {
-            throw new VendingMachineException("No slot found with ID: " + slotId);
-        }
-        return slot;
+         return slotRepository.findById(slotId);
     }
 
     public void addNewFoodTypeToSlot(String slotId, String foodId, int quantity) {
@@ -42,6 +37,16 @@ public class SlotService {
         }
 
         slot.addNewFoodTypeToSlot(foodId, quantity);
+    }
+
+    public void removeFoodTypeFromSlot(String foodId) {
+    //Here the input need not be validated since this method gets called from removeFood in food service that validates the food item
+        Set<Slot> allSlots = slotRepository.findAll();
+        for (Slot slot : allSlots) {
+            if (slot.getFoodItemsInSlot().containsKey(foodId)) {
+                slot.removeFoodTypeFromSlot(foodId);
+            }
+        }
     }
 
     public void refillFoodInSlot(String slotId, String foodId, int quantity) {

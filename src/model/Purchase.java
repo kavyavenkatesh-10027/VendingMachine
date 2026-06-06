@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public class Purchase {
     private final String purchaseId;
@@ -65,6 +66,22 @@ public class Purchase {
 
     public BigDecimal getMoneyToBeReturnedByVendingMachine() {
         return moneyToBeReturnedByVendingMachine;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Purchase purchase = (Purchase) o;
+        return Objects.equals(getPurchaseId(), purchase.getPurchaseId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPurchaseId());
     }
 
     @Override

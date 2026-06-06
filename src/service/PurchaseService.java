@@ -7,6 +7,7 @@ import util.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PurchaseService {
 
@@ -57,12 +58,11 @@ public class PurchaseService {
 
         BigDecimal amountPaid = currencyService.acceptPayment(vm.getDrawer(), inserted);
 
-        if (amountPaid.intValue() < total.intValue()) {
+        if (amountPaid.compareTo(total) < 0) {
             // Refunding the inserted amount
             currencyService.refund(vm.getDrawer(), inserted);
-            System.out.println("Money refunded");
             throw new VendingMachineException(
-                    "Insufficient payment. Total: Rs." + total + ", Paid: Rs." + amountPaid);
+                    "Insufficient payment. Total: Rs." + total + ", Paid: Rs." + amountPaid +"\nCollect refund from the inserting plate");
         }
 
 
@@ -86,7 +86,7 @@ public class PurchaseService {
     }
 
      /// These methods felt like util methods for this particular class, that's why I'm writing them down here.
-    public BigDecimal calculateTotal(Map<String, Integer> cart) {
+    private BigDecimal calculateTotal(Map<String, Integer> cart) {
         BigDecimal total = BigDecimal.ZERO;
         for (Map.Entry<String, Integer> entry : cart.entrySet()) {
             Food food = foodRepository.findById(entry.getKey());
@@ -96,6 +96,10 @@ public class PurchaseService {
             total = total.add(food.getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
         }
         return total;
+    }
+
+    public BigDecimal getCartTotal(Map<String, Integer> cart){
+        return calculateTotal(cart);
     }
 
     public int getStockInMachine(VendingMachine vm, String foodId) {
@@ -127,7 +131,7 @@ public class PurchaseService {
         }
     }
 
-    public List<Purchase> getAllPurchases() {
+    public Set<Purchase> getAllPurchases() {
         return purchaseRepository.findAll();
     }
 }
