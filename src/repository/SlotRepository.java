@@ -1,7 +1,6 @@
 package repository;
 
 import model.Slot;
-import util.VendingMachineException;
 
 import java.util.*;
 
@@ -24,11 +23,7 @@ public class SlotRepository extends BaseRepository<Slot> {
 
     @Override
     public void add(Slot slot) {
-        if (slot == null) {
-            throw new VendingMachineException("Slot cannot be null.");
-        }
-
-        store.put(slot.getSlotId(), slot);
+        super.add(slot);
 
         List<Slot> slotsInMachine = slotsInEveryMachine.get(slot.getVendingMachineId());
         slotsInMachine.add(slot);

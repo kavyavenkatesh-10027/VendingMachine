@@ -9,8 +9,6 @@ import java.util.Map;
 
 public class ConsumerController extends BaseController {
 
-    private final PurchaseService purchaseService = PurchaseService.getInstance();
-
     public Purchase buyProducts(String vendingMachineId,
                                 Map<String, Integer> cart,
                                 Map<IndianCurrency, Integer> inserted) {

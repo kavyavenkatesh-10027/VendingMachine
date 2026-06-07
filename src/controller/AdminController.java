@@ -12,12 +12,6 @@ import java.util.Set;
 
 public class AdminController extends BaseController{
 
-    private final VendingMachineService vendingMachineService = VendingMachineService.getInstance();
-    private final SlotService slotService = SlotService.getInstance();
-    private final FoodService foodService = FoodService.getInstance();
-    private final CurrencyService currencyService = CurrencyService.getInstance();
-    private final PurchaseService purchaseService = PurchaseService.getInstance();
-
     public VendingMachine createVendingMachine(Location location,
                                                LocalDate establishedOn,
                                                Map<String, Integer> firstSlotFoodItems) {

@@ -1,6 +1,5 @@
 package model;
 
-import ui.AdminUI;
 import util.Gender;
 import util.Generator;
 

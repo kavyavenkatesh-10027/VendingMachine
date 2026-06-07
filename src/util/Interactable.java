@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public interface Interactable {
+ public interface Interactable {
 
-    public final Scanner scanner = new Scanner(System.in);
+     Scanner scanner = new Scanner(System.in);
 
-    public default String prompt(String label) {
+     default String prompt(String label) {
         System.out.print(label);
         return scanner.nextLine().trim();
     }
     
-    public default int readInt(String prompt) {
+     default int readInt(String prompt) {
         while (true) {
             System.out.print(prompt + " : ");
             try {
@@ -31,7 +31,7 @@ public interface Interactable {
         }
     }
     
-    public default Map<String, Integer> readFoodItemsMap(String context) {
+     default Map<String, Integer> readFoodItemsMap(String context) {
         Map<String, Integer> foodItems = new HashMap<>();
         System.out.println("Enter food items for the " + context + " (blank food ID to stop):");
         while (true) {
@@ -50,7 +50,7 @@ public interface Interactable {
         return foodItems;
     }
 
-    public default LocalDate readDate(String prompt) {
+     default LocalDate readDate(String prompt) {
         while (true) {
             System.out.print(prompt);
             try {
@@ -61,13 +61,14 @@ public interface Interactable {
         }
     }
 
-    public default BigDecimal readBigDecimal(String prompt) {
+     default BigDecimal readBigDecimal(String prompt) {
         while (true) {
             System.out.print(prompt);
             try {
                 BigDecimal value = new BigDecimal(scanner.nextLine().trim());
                 if (value.compareTo(BigDecimal.ZERO) <= 0) {
                     System.out.println("Please enter a number greater than zero.");
+                    continue;
                 }
                 return value;
             } catch (NumberFormatException e) {
@@ -76,7 +77,7 @@ public interface Interactable {
         }
     }
 
-    public default <T extends Enum<T>> T readEnum(Class<T> clazz, String label) {
+     default <T extends Enum<T>> T readEnum(Class<T> clazz, String label) {
         T[] constants = clazz.getEnumConstants();
         System.out.println(label + " options:");
         for (int i = 0; i < constants.length; i++) {

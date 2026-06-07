@@ -2,7 +2,7 @@ package controller;
 
 import model.Food;
 import model.VendingMachine;
-import service.VendingMachineService;
+import service.*;
 import util.VendingMachineException;
 
 //todo interface/abstract
@@ -13,6 +13,10 @@ import java.util.*;
 public abstract class BaseController {
 
     protected final VendingMachineService vendingMachineService = VendingMachineService.getInstance();
+    protected final SlotService slotService = SlotService.getInstance();
+    protected final FoodService foodService = FoodService.getInstance();
+    protected final CurrencyService currencyService = CurrencyService.getInstance();
+    protected final PurchaseService purchaseService = PurchaseService.getInstance();
 
     public VendingMachine viewVendingMachine(String vendingMachineId) {
 
@@ -24,7 +28,7 @@ public abstract class BaseController {
     }
 
     public Set<VendingMachine> viewAllVendingMachines() {
-        return vendingMachineService.viewAllVendingMachines();
+        return vendingMachineService.getAllVendingMachines();
     }
 
     public Set<Food> viewAvailableProducts(String vendingMachineId) {

@@ -84,9 +84,9 @@ public class CurrencyService {
         }
 
         for (Map.Entry<IndianCurrency, Integer> entry : change.entrySet()) {
-            if (drawer.getCount(entry.getKey()) < entry.getValue()){
-                throw new VendingMachineException("Insufficient amount of denomination in machine.");
-            }
+//            if (drawer.getCount(entry.getKey()) < entry.getValue()){
+//                throw new VendingMachineException("Insufficient amount of denomination in machine.");
+//            } //Here check is not needed because its already been checked using the min function above.
             drawer.deduct(entry.getKey(), entry.getValue());
         }
 
