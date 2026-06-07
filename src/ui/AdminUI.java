@@ -92,7 +92,7 @@ public class AdminUI implements Interactable{
 
     private void removeVendingMachine() {
         System.out.println("\n--- Remove Vending Machine ---");
-        String vmId = prompt("Vending machine ID to remove: ");;
+        String vmId = prompt("Vending machine ID to remove: ");
         adminController.removeVendingMachine(vmId);
         System.out.println("Vending machine " + vmId + " and all its slots have been removed.");
     }

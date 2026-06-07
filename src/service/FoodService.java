@@ -13,7 +13,6 @@ public class FoodService {
 
     private static FoodService instance;
     private final FoodRepository foodRepository = FoodRepository.getInstance();
-    private final SlotRepository slotRepository = SlotRepository.getInstance();
     private final SlotService slotService = SlotService.getInstance();
 
     private FoodService() {}

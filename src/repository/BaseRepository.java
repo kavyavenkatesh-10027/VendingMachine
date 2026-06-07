@@ -11,13 +11,19 @@ public abstract class BaseRepository<T> {
     protected abstract String getId(T entity);
 
     public void add(T entity) {
+        if (entity == null){
+            throw new VendingMachineException("Entity cannot be null.");
+        }
         if (existsById(getId(entity))){
-            throw new VendingMachineException("Entity is either null or already exists in the system");
+            throw new VendingMachineException("Entity already exists.");
         }
         store.put(getId(entity), entity);
     }
 
     public T findById(String id) {
+        if (id == null){
+            throw new VendingMachineException("Entity cannot be null.");
+        }
         if (!existsById(id)) {
             throw new VendingMachineException("Entity of Id: "+ id + "is either null or does not exists");
         }

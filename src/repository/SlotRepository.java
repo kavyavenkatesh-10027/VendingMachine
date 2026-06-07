@@ -1,6 +1,7 @@
 package repository;
 
 import model.Slot;
+import util.VendingMachineException;
 
 import java.util.*;
 
@@ -26,6 +27,9 @@ public class SlotRepository extends BaseRepository<Slot> {
         super.add(slot);
 
         List<Slot> slotsInMachine = slotsInEveryMachine.get(slot.getVendingMachineId());
+        if(slotsInMachine == null) {
+            throw new VendingMachineException("Slot must be initialized first");
+        }
         slotsInMachine.add(slot);
 
         slotsInEveryMachine.put(slot.getVendingMachineId(), slotsInMachine);

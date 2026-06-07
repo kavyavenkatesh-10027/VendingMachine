@@ -1,6 +1,8 @@
 package model;
 
 import util.Generator;
+import util.VendingMachineException;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -50,6 +52,8 @@ public class Slot {
     public void addMoreOfFoodItemToSlot(String theIdOfFoodItemToRefill, Integer quantity){
         if(foodItemsInSlot.containsKey(theIdOfFoodItemToRefill)) {
             foodItemsInSlot.put(theIdOfFoodItemToRefill, foodItemsInSlot.get(theIdOfFoodItemToRefill) + quantity);
+        }else {
+            throw new VendingMachineException("The food item is new to the slot, use add new food item to slot.");
         }
     }
 
