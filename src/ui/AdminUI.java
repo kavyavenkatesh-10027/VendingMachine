@@ -6,7 +6,6 @@ import util.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class AdminUI implements Interactable{
@@ -80,7 +79,7 @@ public class AdminUI implements Interactable{
     private void createVendingMachine() {
         System.out.println("\n--- Create Vending Machine ---");
 
-        Location location = (Location) readEnum(Location.class, "Location");
+        Location location = readEnum(Location.class, "Location");
         LocalDate establishedOn = readDate("Established on (yyyy-MM-dd): ");
         Map<String, Integer> firstSlotFoodItems = readFoodItemsMap("first slot");
 
@@ -131,17 +130,17 @@ public class AdminUI implements Interactable{
         BigDecimal price = readBigDecimal("Price: ");
 
         System.out.print("Manufacturing location: ");
-        Location manufacturingLocation = (Location) readEnum(Location.class, "Manufacturing location");
+        Location manufacturingLocation = readEnum(Location.class, "Manufacturing location");
 
         LocalDate manufacturingDate = readDate("Manufacturing date (yyyy-MM-dd): ");
         LocalDate expiryDate = readDate("Expiry date (yyyy-MM-dd): ");
 
-        VegNonVeg vegOrNonVeg = (VegNonVeg) readEnum(VegNonVeg.class , "Veg / Non-veg");
+        VegNonVeg vegOrNonVeg = readEnum(VegNonVeg.class , "Veg / Non-veg");
 
         System.out.print("Ingredients (comma-separated): ");
         List<String> ingredients = Arrays.asList(scanner.nextLine().trim().split(","));
 
-        FoodType foodType = (FoodType) readEnum(FoodType.class, "Food type");
+        FoodType foodType = readEnum(FoodType.class, "Food type");
 
         Food food = adminController.registerFood(productName, brand, description, warning,
                 price, manufacturingLocation, manufacturingDate, vegOrNonVeg,
