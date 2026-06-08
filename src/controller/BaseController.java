@@ -5,9 +5,6 @@ import model.VendingMachine;
 import service.*;
 import util.VendingMachineException;
 
-//todo interface/abstract
-//todo naming
-//
 import java.util.*;
 
 public abstract class BaseController {
