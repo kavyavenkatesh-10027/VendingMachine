@@ -81,7 +81,7 @@ public class Slot {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSlotId());
+        return Objects.hash(slotId);
     }
     @Override
     public String toString() {

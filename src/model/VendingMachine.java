@@ -85,7 +85,7 @@ public class VendingMachine {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVendingMachineId());
+        return Objects.hash(vendingMachineId);
     }
 
     @Override

@@ -63,6 +63,7 @@ public class Product {
             this.manufacturingDate = manufacturingDate;
         }
 
+        @SuppressWarnings("unchecked")
         public T warning(String warning) {
             this.warning = warning;
             return (T) this;//Unchecked because null is acceptable here.
@@ -125,7 +126,7 @@ public class Product {
     }
 
     @Override
-    public int hashCode() { return Objects.hash(getProductId()); }
+    public int hashCode() { return Objects.hash(productId); }
 
     @Override
     public String toString() {

@@ -30,7 +30,7 @@ public class Admin extends User{
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAdminId());
+        return Objects.hash(adminId);
     }
 
     @Override

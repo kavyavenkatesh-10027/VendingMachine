@@ -88,6 +88,9 @@ public class Food extends Product {
     }
 
     @Override
+    public int hashCode() { return Objects.hash(getProductId()); }
+
+    @Override
     public String toString() {
         return super.toString() + "\n" +
                 "Veg/Non-Veg : " + vegOrNonVeg + "\n" +

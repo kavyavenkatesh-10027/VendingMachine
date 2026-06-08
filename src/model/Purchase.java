@@ -81,7 +81,7 @@ public class Purchase {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPurchaseId());
+        return Objects.hash(purchaseId);
     }
 
     @Override
