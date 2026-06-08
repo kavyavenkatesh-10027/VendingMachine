@@ -69,7 +69,7 @@ public class CurrencyService {
             int available = drawer.getCount(denom);
 
             int canUse = remaining.divideToIntegralValue(denomValue).intValue();
-            int use = Math.min(canUse, available);
+            int use = Math.min(canUse, available);//The min function.
 
             if (use > 0) {
                 change.put(denom, use);

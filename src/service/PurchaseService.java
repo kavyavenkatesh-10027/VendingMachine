@@ -5,7 +5,6 @@ import repository.*;
 import util.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,8 +84,10 @@ public class PurchaseService {
         return purchase;
     }
 
+
      /// These methods felt like util methods for this particular class, that's why I'm writing them down here.
-    private BigDecimal calculateTotal(Map<String, Integer> cart) {
+
+     private BigDecimal calculateTotal(Map<String, Integer> cart) {
         BigDecimal total = BigDecimal.ZERO;
         for (Map.Entry<String, Integer> entry : cart.entrySet()) {
             Food food = foodRepository.findById(entry.getKey());
